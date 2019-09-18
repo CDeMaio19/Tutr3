@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "63093145105",
+    "firebase_url": "https://tutr-84394.firebaseio.com",
+    "project_id": "tutr-84394",
+    "storage_bucket": "tutr-84394.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63093145105:android:177b2793396c3714633bb0",
+        "android_client_info": {
+          "package_name": "com.example.tutr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "63093145105-2v31lom8daa93g1acm2m4h4epi7nlcuk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tutr",
+            "certificate_hash": "9544a7a42ee54cce2d4090675024a70963e748c9"
+          }
+        },
+        {
+          "client_id": "63093145105-stek6rrb56f6omd0e1mvkcbtbojl9hhf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6QRmhVS1eqIyIKh2yeZNC3MYIOEPSn9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "63093145105-stek6rrb56f6omd0e1mvkcbtbojl9hhf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
