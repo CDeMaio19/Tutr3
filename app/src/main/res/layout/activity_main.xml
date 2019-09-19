@@ -9,7 +9,7 @@
     >
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/Reg"
         android:layout_width="392dp"
         android:layout_height="39dp"
         android:text="@string/Register"
@@ -17,7 +17,7 @@
         android:textColor="@color/Pink"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/CAA" />
 
     <ImageView
         android:id="@+id/Logo"
@@ -99,13 +99,13 @@
         android:textColor="@color/LightBlue"/>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/CAA"
         android:layout_width="392dp"
         android:layout_height="39dp"
         android:layout_marginTop="40dp"
         android:text="@string/Account"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintBottom_toTopOf="@+id/Reg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
