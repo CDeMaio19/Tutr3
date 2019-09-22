@@ -22,15 +22,29 @@
         android:layout_marginBottom="50dp"/>
 
     <EditText
-        android:id="@+id/e_Name"
+        android:id="@+id/e_FName"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:autofillHints=""
         android:background="@color/Pink"
         android:ems="10"
-        android:hint="@string/Account_Name"
-        android:inputType="textEmailAddress"
+        android:hint="@string/FName"
+        android:inputType="text"
+        android:textColor="@color/LightBlue"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/e_LName"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:autofillHints=""
+        android:background="@color/Pink"
+        android:ems="10"
+        android:hint="@string/LName"
+        android:inputType="text"
         android:textColor="@color/LightBlue"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -43,8 +57,8 @@
         android:autofillHints=""
         android:background="@color/Pink"
         android:ems="10"
-        android:hint="@string/Account_Name"
-        android:inputType="textEmailAddress"
+        android:hint="@string/School"
+        android:inputType="text"
         android:textColor="@color/LightBlue"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -86,13 +100,13 @@
             android:id="@+id/Student"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:text="@string/Student" />
 
         <RadioButton
             android:id="@+id/Educator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:text="@string/Educator" />
     </RadioGroup>
 
     <Button
@@ -101,7 +115,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
         android:background="@color/Green"
-        android:text="@string/Login"
+        android:text="@string/RegisterButton"
         android:textColor="@color/LightBlue" />
 
 </LinearLayout>
