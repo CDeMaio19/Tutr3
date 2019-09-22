@@ -21,15 +21,14 @@
 
     <ImageView
         android:id="@+id/Logo"
-        android:layout_width="229dp"
-        android:layout_height="180dp"
+        android:layout_width="362dp"
+        android:layout_height="184dp"
         android:layout_marginTop="32dp"
         android:contentDescription="@string/Logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        />
+        app:srcCompat="@drawable/tutrfinal" />
 
     <EditText
         android:id="@+id/E_Email"
