@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.content.Intent;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -43,8 +44,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
-                if (firebaseAuth.getCurrentUser() != null){
+                if (firebaseAuth.getCurrentUser() != null) {
                     //Change Activity
+                    startActivity(new Intent(MainActivity.this, LoggedInActivity.class));
+
                 }
 
             }
@@ -56,48 +59,42 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 SignIn();
-                //Change Activity
 
             }
         });
 
 
-
-
     }
 
     @Override
-   protected void onStart(){
+    protected void onStart() {
         super.onStart();
 
         UAuth.addAuthStateListener(UAuthListener);
-   }
+    }
 
 
-
-
-    private void SignIn (){
+    private void SignIn() {
 
         String Email = UEmail.getText().toString();
         String Password = UPassword.getText().toString();
 
-        if (TextUtils.isEmpty(Email) || TextUtils.isEmpty(Password)){
+        if (TextUtils.isEmpty(Email) || TextUtils.isEmpty(Password)) {
 
             Toast.makeText(MainActivity.this, "Please Enter Email & Password", Toast.LENGTH_LONG).show();
 
-        }else{
+        } else {
             UAuth.signInWithEmailAndPassword(Email, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
-                    if (!task.isSuccessful()){
+                    if (!task.isSuccessful()) {
                         Toast.makeText(MainActivity.this, "Invalid Email & Password", Toast.LENGTH_LONG).show();
                     }
 
                 }
             });
         }
-
 
 
     }
