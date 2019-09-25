@@ -14,8 +14,8 @@
 
     <string name="FName">First Name</string>
     <string name="LName">Last Name</string>
-    <string name="School">School</string>
+    <string name="School">School / Occupation</string>
     <string name="Student">Student</string>
-    <string name="Educator">Educator</string>
+    <string name="Educator">Tutor</string>
     <string name="RegisterButton">Register</string>
 </resources>
