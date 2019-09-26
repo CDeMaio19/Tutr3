@@ -15,7 +15,10 @@
     <string name="Chat_TextView_Hint">Messages appear here</string>
     <string name="editTextMessage_Hint">Type here</string>
     <string name="Send">Send</string>
-
-
-
+    <string name="FName">First Name</string>
+    <string name="LName">Last Name</string>
+    <string name="School">School / Occupation</string>
+    <string name="Student">Student</string>
+    <string name="Educator">Tutor</string>
+    <string name="RegisterButton">Register</string>
 </resources>
