@@ -6,6 +6,18 @@
         <item name="colorPrimary">@color/LightBlue</item>
         <item name="colorPrimaryDark">@color/LightBlue</item>
         <item name="colorAccent">@color/LightBlue</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 
 </resources>
