@@ -3,11 +3,13 @@ package com.example.tutr;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText UEmail;
     private EditText UPassword;
+    private TextView Register;
 
     private Button Login;
 
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         UPassword = (EditText) findViewById(R.id.E_Password);
 
         Login = (Button) findViewById(R.id.Login);
+        Register = (TextView) findViewById(R.id.Reg);
 
 
         UAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -59,6 +63,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 SignIn();
+
+            }
+        });
+
+        Register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
 
             }
         });

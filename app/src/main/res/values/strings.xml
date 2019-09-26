@@ -11,11 +11,18 @@
     <string name="CAA">Create An Account</string>
     <string name="Account">Do not have an account yet?</string>
     <string name="Register"><u>Register now!!</u></string>
+
+    <string name="FName">First Name</string>
+    <string name="LName">Last Name</string>
+    <string name="School">School / Occupation</string>
+    <string name="Student">Student</string>
+    <string name="Educator">Tutor</string>
+    <string name="RegisterButton">Register</string>
+
+
+
     <string name="Cancelled_Message">CANCELLED</string>
     <string name="Chat_TextView_Hint">Messages appear here</string>
     <string name="editTextMessage_Hint">Type here</string>
     <string name="Send">Send</string>
-
-
-
 </resources>
