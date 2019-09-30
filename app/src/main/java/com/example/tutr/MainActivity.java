@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (firebaseAuth.getCurrentUser() != null) {
                     //Change Activity
-                    startActivity(new Intent(MainActivity.this, LoggedInActivity.class));
+                   // startActivity(new Intent(MainActivity.this, LoggedInActivity.class));
 
                 }
 
