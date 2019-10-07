@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/toolbar"
+    android:id="@+id/conversation_list_toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/White">
+    android:background="@color/LightBlue">
 
-    <ImageView
-        android:id="@+id/Logo"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity = "center"
-        android:src="@drawable/tutr_logo_3"/>
+        android:textSize="30sp"
+        android:text="Conversations"
+        android:textColor="@color/White"
 
+        />
 </androidx.appcompat.widget.Toolbar>

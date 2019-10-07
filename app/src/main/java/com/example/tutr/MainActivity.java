@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Intent;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,11 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
         UAuth = FirebaseAuth.getInstance();
 
-        UEmail = (EditText) findViewById(R.id.E_Email);
-        UPassword = (EditText) findViewById(R.id.E_Password);
+        UEmail = findViewById(R.id.E_Email);
+        UPassword = findViewById(R.id.E_Password);
 
-        Login = (Button) findViewById(R.id.Login);
-        Register = (TextView) findViewById(R.id.Reg);
+        Login = findViewById(R.id.Login);
+        Register = findViewById(R.id.Reg);
 
 
         UAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -50,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if (firebaseAuth.getCurrentUser() != null) {
                     //Change Activity
-                    startActivity(new Intent(MainActivity.this, LoggedInActivity.class));
+                    startActivity(new Intent(MainActivity.this, ChatTranscriptActivity.class));
+
 
                 }
 
@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 SignIn();
+
+
 
             }
         });

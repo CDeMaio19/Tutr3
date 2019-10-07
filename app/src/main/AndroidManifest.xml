@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
@@ -23,11 +24,11 @@
         </activity>
 
         <activity
-            android:name=".LoggedInActivity"
-            android:label="@string/app_name">
+            android:name=".ChatTranscriptActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".MenuActivity"></activity>
+        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".MenuActivity"/>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
