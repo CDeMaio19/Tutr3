@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/LightBlue"
-    android:fitsSystemWindows="true"
-    >
+    android:layout_alignParentTop="true">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -17,8 +16,9 @@
         android:id="@+id/toolbarUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username"
+        android:text="@string/Default_Username_Text"
         android:textColor="@color/White"
         android:textSize="24sp"
-        android:paddingLeft="10dp"/>
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
 </androidx.appcompat.widget.Toolbar>

@@ -6,38 +6,37 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 
 public class ChatTranscriptActivity extends AppCompatActivity{
     private DatabaseReference myDatabase;
     private EditText chatEditText;
-    private Button sendButton;
+    private ImageButton sendButton;
     private FirebaseListAdapter<Message> adapter;
-    private TextView toolbarUsername;
+    private FirebaseUser firebaseUser;
 
 
     @Override
         protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_chat_transcript);
-
-            toolbarUsername = findViewById(R.id.toolbarUsername);
+            TextView toolbarUsername = findViewById(R.id.toolbarUsername);
             sendButton = findViewById(R.id.sendButton);
             chatEditText = findViewById(R.id.editTextMessage);
+
 
             chatEditText.addTextChangedListener(textMessageWatcher);
             DisplayChatMessages();
@@ -96,9 +95,8 @@ public class ChatTranscriptActivity extends AppCompatActivity{
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             String textMessageInput = chatEditText.getText().toString().trim();
             //if the EditText is not empty then enable sendButton
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
                 sendButton.setEnabled(!textMessageInput.isEmpty());
-            }
+
         }
 
         @Override

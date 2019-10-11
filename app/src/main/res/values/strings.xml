@@ -14,6 +14,8 @@
     <string name="Cancelled_Message">CANCELLED</string>
     <string name="Chat_TextView_Hint">Messages appear here</string>
     <string name="editTextMessage_Hint">Type here</string>
+    <string name="Nav_Drawer_Header_Text">Conversations</string>
+    <string name="Default_Username_Text">Username</string>
     <string name="Send">Send</string>
     <string name="FName">First Name</string>
     <string name="LName">Last Name</string>

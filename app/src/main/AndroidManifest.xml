@@ -25,7 +25,7 @@
         <activity
             android:name=".ChatTranscriptActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
         </activity>
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".MenuActivity"/>

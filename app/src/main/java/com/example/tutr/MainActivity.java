@@ -35,13 +35,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         UAuth = FirebaseAuth.getInstance();
-
         UEmail = findViewById(R.id.E_Email);
         UPassword = findViewById(R.id.E_Password);
-
         Login = findViewById(R.id.Login);
         Register = findViewById(R.id.Reg);
-
 
         UAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -49,13 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if (firebaseAuth.getCurrentUser() != null) {
                     //Change Activity
-                    //startActivity(new Intent(MainActivity.this, ChatTranscriptActivity.class));
-
                 }
 
             }
         };
-
 
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,10 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -105,6 +96,11 @@ public class MainActivity extends AppCompatActivity {
 
                     if (!task.isSuccessful()) {
                         Toast.makeText(MainActivity.this, "Invalid Email & Password", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        startActivity(new Intent(MainActivity.this, ChatTranscriptActivity.class));
+
                     }
 
                 }
