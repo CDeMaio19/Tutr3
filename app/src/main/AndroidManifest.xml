@@ -3,6 +3,7 @@
     package="com.example.tutr">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -10,8 +11,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
+        <activity android:name=".LoggedInActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
@@ -19,16 +20,14 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
         <activity
-            android:name=".ChatTranscriptActivity"
+            android:name=".ChatFragment"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
-        </activity>
-        <activity android:name=".RegisterActivity"/>
-        <activity android:name=".MenuActivity"/>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".MenuActivity" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

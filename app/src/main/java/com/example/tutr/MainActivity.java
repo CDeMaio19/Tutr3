@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        startActivity(new Intent(MainActivity.this, ChatTranscriptActivity.class));
+                        startActivity(new Intent(MainActivity.this, LoggedInActivity.class));
 
                     }
 
