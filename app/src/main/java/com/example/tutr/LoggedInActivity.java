@@ -2,6 +2,7 @@ package com.example.tutr;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
@@ -20,6 +21,8 @@ public class LoggedInActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_nav);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_ui_container,new ChatFragment()).commit();
+        Toolbar toolbar = findViewById(R.id.chat_toolbar);
+        setSupportActionBar(toolbar);
 
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -38,6 +41,7 @@ public class LoggedInActivity extends AppCompatActivity {
                 }
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_ui_container,selectedFragment).commit();
+
 
                 return true;
             }
