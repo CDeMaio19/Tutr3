@@ -11,10 +11,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -32,25 +28,25 @@ public class ChatFragment extends Fragment {
     private FirebaseListAdapter <Message> adapter;
     private FirebaseUser firebaseUser;
     private ListView listOfMessages;
-    private ImageButton menu;
+    private ImageButton conversationMenu;
 
 
     @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState ) {
             super.onCreate(savedInstanceState);
-           View fragmentRootView = inflater.inflate(R.layout.fragment_chat,container,false);
+            View fragmentRootView = inflater.inflate(R.layout.fragment_chat,container,false);
             TextView toolbarUsername = fragmentRootView.findViewById(R.id.toolbarUsername);
             final DrawerLayout drawerLayout = fragmentRootView.findViewById(R.id.side_nav_drawer_layout);
-            menu = fragmentRootView.findViewById(R.id.menu_icon);
+            conversationMenu = fragmentRootView.findViewById(R.id.menu);
             sendButton = fragmentRootView.findViewById(R.id.sendButton);
             chatEditText = fragmentRootView.findViewById(R.id.editTextMessage);
             listOfMessages = fragmentRootView.findViewById(R.id.list_of_messages);
 
-            menu.setOnClickListener(new View.OnClickListener() {
+            conversationMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     drawerLayout.openDrawer(GravityCompat.START);
+                    System.out.println("Clicked");
 
                 }
             });
@@ -73,7 +69,7 @@ public class ChatFragment extends Fragment {
             return fragmentRootView;
         }
 
-    public void DisplayChatMessages() {
+    private void DisplayChatMessages() {
 
         adapter = new FirebaseListAdapter<Message>(getActivity(), Message.class,
                 R.layout.final_message, FirebaseDatabase.getInstance().getReference().child("Messages")) {
@@ -93,7 +89,7 @@ public class ChatFragment extends Fragment {
        listOfMessages.setAdapter(adapter);
     }
 
-    public void SendMessage()
+    private void SendMessage()
     {
             //Change last argument to - FirebaseAuth.getInstance().getCurrentUser().getDisplayName())); when profiles are made
             myDatabase.child("Messages").push().setValue(new Message(chatEditText.getText().toString(), "Bob"));

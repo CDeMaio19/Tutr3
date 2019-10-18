@@ -16,6 +16,16 @@
     <string name="editTextMessage_Hint">Type here</string>
     <string name="Nav_Drawer_Header_Text">Conversations</string>
     <string name="Default_Username_Text">Username</string>
+    <string name="menu_item_settings">Settings</string>
+    <string name="menu_item_logout">Log Out</string>
+    <string name="chats">Chats</string>
+    <string name="questions">Questions</string>
+    <string name="description">Description</string>
+    <string name="area_of_expertise">Area of Expertise</string>
+    <string name="contact_info">Contact Information</string>
+    <string name="profile">Profile</string>
+    <string name="Schedule">Schedule</string>
+    <string name= "Bio">Bio</string>
     <string name="Send">Send</string>
     <string name="FName">First Name</string>
     <string name="LName">Last Name</string>
