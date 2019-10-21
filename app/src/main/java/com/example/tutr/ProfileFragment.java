@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
@@ -47,7 +48,8 @@ public class ProfileFragment extends Fragment {
         View fragmentRootView = inflater.inflate(R.layout.fragment_profile, container,false);
         profileImage = fragmentRootView.findViewById(R.id.user_profile);
         username = fragmentRootView.findViewById(R.id.username);
-        ImageButton editButton = fragmentRootView.findViewById(R.id.edit_button);
+        ImageButton changePhotoButton = fragmentRootView.findViewById(R.id.change_photo_button);
+
 
         ViewPager viewPager = fragmentRootView.findViewById(R.id.profile_viewpager);
         TabFragmentPagerAdapter adapter = new TabFragmentPagerAdapter(getContext(), getChildFragmentManager());
@@ -66,7 +68,7 @@ public class ProfileFragment extends Fragment {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference().child("Users").child("Tutors").child(firebaseUser.getUid());
         reference.addValueEventListener(valueEventListener);
-        editButton.setOnClickListener(onClickListener);
+        changePhotoButton.setOnClickListener(changePhotoOnClickListener);
 
 
          return fragmentRootView;
@@ -122,7 +124,7 @@ public class ProfileFragment extends Fragment {
         }
     };
     // convert to edit mode when profile ui is finished
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
+    private View.OnClickListener changePhotoOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             //add this to separate button under profile photo to select profile photo

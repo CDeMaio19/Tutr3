@@ -11,9 +11,12 @@
     <string name="CAA">Create An Account</string>
     <string name="Account">Do not have an account yet?</string>
     <string name="Register"><u>Register now!!</u></string>
-    <string name="Cancelled_Message">CANCELLED</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Done">Done</string>
+    <string name="Edit_Profile">Edit Profile</string>
     <string name="Chat_TextView_Hint">Messages appear here</string>
     <string name="editTextMessage_Hint">Type here</string>
+    <string name="Profile_Picture">Profile Picture</string>
     <string name="Nav_Drawer_Header_Text">Conversations</string>
     <string name="Default_Username_Text">Username</string>
     <string name="menu_item_settings">Settings</string>

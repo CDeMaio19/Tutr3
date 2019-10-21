@@ -102,6 +102,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 userHash.put("school", SO.getText().toString());
                                 userHash.put("email", UEmail.getText().toString());
                                 userHash.put("profilePhotoURL", "default");
+                                userHash.put("areaOfExpertise", "");
+                                userHash.put("description", "");
 
 
                                 if (ST.isChecked()) {
