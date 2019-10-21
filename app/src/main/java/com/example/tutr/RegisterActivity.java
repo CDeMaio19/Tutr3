@@ -36,6 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText SO;
     private EditText UEmail;
     private EditText UPassword;
+    private EditText FOE;
 
     private RadioButton ST;
     private RadioButton TU;
@@ -55,6 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
         FN = (EditText) findViewById(R.id.e_FName);
         LN = (EditText) findViewById(R.id.e_LName);
         SO = (EditText) findViewById(R.id.e_School);
+        FOE = (EditText) findViewById(R.id.e_FOE);
 
         ST = (RadioButton) findViewById(R.id.Student);
         TU = (RadioButton) findViewById(R.id.Educator);
@@ -67,6 +69,23 @@ public class RegisterActivity extends AppCompatActivity {
                 RegisterUser();
             }
         });
+
+        FOE.setVisibility(View.INVISIBLE);
+
+        TU.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FOE.setVisibility(View.VISIBLE);
+            }
+        });
+
+        ST.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    FOE.setVisibility(View.INVISIBLE);
+            }
+        });
+
     }
     private void RegisterUser(){
         String email = UEmail.getText().toString().trim();
@@ -102,7 +121,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 userHash.put("school", SO.getText().toString());
                                 userHash.put("email", UEmail.getText().toString());
                                 userHash.put("profilePhotoURL", "default");
-                                userHash.put("areaOfExpertise", "");
+                                userHash.put("areaOfExpertise", FOE.getText().toString());
                                 userHash.put("description", "");
 
 
@@ -110,6 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child("Students").child(id);
                                     reference.setValue(userHash);
                                 } else {
+
                                     final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child("Tutors").child(id);
                                     reference.setValue(userHash);
                                 }
