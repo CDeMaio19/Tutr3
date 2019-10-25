@@ -66,6 +66,7 @@ public class ProfileFragment extends Fragment {
         setHasOptionsMenu(true);
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        //Add Student
         reference = FirebaseDatabase.getInstance().getReference().child("Users").child("Tutors").child(firebaseUser.getUid());
         reference.addValueEventListener(valueEventListener);
         changePhotoButton.setOnClickListener(changePhotoOnClickListener);

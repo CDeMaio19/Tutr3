@@ -121,7 +121,12 @@ public class RegisterActivity extends AppCompatActivity {
                                 userHash.put("school", SO.getText().toString());
                                 userHash.put("email", UEmail.getText().toString());
                                 userHash.put("profilePhotoURL", "default");
-                                userHash.put("areaOfExpertise", FOE.getText().toString());
+                                if (TU.isChecked()) {
+                                    userHash.put("areaOfExpertise", FOE.getText().toString());
+                                }
+                                else {
+                                userHash.put("areaOfExpertise", "");
+                                }
                                 userHash.put("description", "");
 
 

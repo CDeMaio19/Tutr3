@@ -46,6 +46,7 @@ public class BioTabFragment extends Fragment {
 
         View fragmentRootView = inflater.inflate(R.layout.fragment_bio_tab, container, false);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        //Add Student
         reference= FirebaseDatabase.getInstance().getReference().child("Users").child("Tutors").child(firebaseUser.getUid());
 
         editButton = getParentFragment().getActivity().findViewById(R.id.edit_button);

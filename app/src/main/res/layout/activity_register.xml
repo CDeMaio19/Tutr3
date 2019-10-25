@@ -102,8 +102,21 @@
         android:inputType="text"
         android:textColor="@color/LightBlue"
         android:textSize="24sp"
-        android:textStyle="bold"
-        tools:visibility="visible" />
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/e_FOE2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:autofillHints=""
+        android:background="@color/Pink"
+        android:ems="10"
+        android:hint="@string/area_of_expertise"
+        android:inputType="text"
+        android:textColor="@color/LightBlue"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <RadioGroup
         android:layout_width="match_parent"
