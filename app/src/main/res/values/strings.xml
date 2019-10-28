@@ -36,4 +36,67 @@
     <string name="Student">Student</string>
     <string name="Educator">Tutor</string>
     <string name="RegisterButton">Register</string>
+
+    <string-array name="Subjects">
+        <item>English</item>
+        <item>Math</item>
+        <item>Science</item>
+        <item>Social Studies</item>
+        <item>Foreign Language</item>
+    </string-array>
+
+    <string-array name="English">
+        <item>Grammar</item>
+        <item>Poetry</item>
+        <item>Journalism</item>
+        <item>Public Speaking</item>
+        <item>Theatre</item>
+        <item>Creative writing</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="Math">
+        <item>Algebra</item>
+        <item>Trigonometry</item>
+        <item>Geometry</item>
+        <item>Calculus</item>
+        <item>Accounting</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="Science">
+        <item>Information Systems</item>
+        <item>Biology</item>
+        <item>Anatomy</item>
+        <item>Chemistry</item>
+        <item>Physics</item>
+        <item>Meteorology</item>
+        <item>Ecology</item>
+        <item>Medicine</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="Social_Studies">
+        <item>Prehistoric</item>
+        <item>Pre-800s</item>
+        <item>Pre-1100s</item>
+        <item>Pre-1400s</item>
+        <item>Pre-1600s</item>
+        <item>Pre-1800s</item>
+        <item>Pre-1900s</item>
+        <item>Current</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="Foreign_Language">
+        <item>Spanish</item>
+        <item>Italian</item>
+        <item>French</item>
+        <item>Chinese</item>
+        <item>Arabic</item>
+        <item>Japanese</item>
+        <item>German</item>
+        <item>Russian</item>
+        <item>Other</item>
+    </string-array>
 </resources>
