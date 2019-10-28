@@ -153,6 +153,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                 userHash.put("email", UEmail.getText().toString());
                                 userHash.put("profilePhotoURL", "default");
                                 if (TU.isChecked()) {
+                                    userHash.put("subject", "");
                                     userHash.put("areaOfExpertise","");
                                 }
                                 else {
@@ -223,6 +224,8 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                     default:
                         break;
                 }
+            case R.id.FOE:
+                String ExpertText = adapterView.getSelectedItem().toString();
         }
     }
 
