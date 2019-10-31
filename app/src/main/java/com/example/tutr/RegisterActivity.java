@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
 
     private FirebaseAuth UAuth;
@@ -36,6 +39,9 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText SO;
     private EditText UEmail;
     private EditText UPassword;
+    private Spinner FOE;
+    private Spinner Sub;
+    private String SubjectText = "English";
 
     private RadioButton ST;
     private RadioButton TU;
@@ -55,6 +61,8 @@ public class RegisterActivity extends AppCompatActivity {
         FN = (EditText) findViewById(R.id.e_FName);
         LN = (EditText) findViewById(R.id.e_LName);
         SO = (EditText) findViewById(R.id.e_School);
+        FOE = (Spinner) findViewById(R.id.FOE);
+        Sub = (Spinner) findViewById(R.id.Subject);
 
         ST = (RadioButton) findViewById(R.id.Student);
         TU = (RadioButton) findViewById(R.id.Educator);
@@ -67,6 +75,48 @@ public class RegisterActivity extends AppCompatActivity {
                 RegisterUser();
             }
         });
+
+        FOE.setVisibility(View.INVISIBLE);
+        Sub.setVisibility(View.INVISIBLE);
+
+        ArrayAdapter<CharSequence> S = ArrayAdapter.createFromResource(this, R.array.Subjects, android.R.layout.simple_spinner_item);
+        S.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Sub.setAdapter(S);
+        Sub.setOnItemSelectedListener(this);
+
+        FOE.setAdapter(S);
+        FOE.setOnItemSelectedListener(this);
+
+        ArrayAdapter<CharSequence> E = ArrayAdapter.createFromResource(this, R.array.English, android.R.layout.simple_spinner_item);
+        E.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> F = ArrayAdapter.createFromResource(this, R.array.Foreign_Language, android.R.layout.simple_spinner_item);
+        F.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> M = ArrayAdapter.createFromResource(this, R.array.Math, android.R.layout.simple_spinner_item);
+        M.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> Sc = ArrayAdapter.createFromResource(this, R.array.Science, android.R.layout.simple_spinner_item);
+        Sc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> SS = ArrayAdapter.createFromResource(this, R.array.Social_Studies, android.R.layout.simple_spinner_item);
+        SS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+
+
+        TU.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FOE.setVisibility(View.VISIBLE);
+                Sub.setVisibility(View.VISIBLE);
+            }
+        });
+
+        ST.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    FOE.setVisibility(View.INVISIBLE);
+                    Sub.setVisibility(View.INVISIBLE);
+            }
+        });
+
     }
     private void RegisterUser(){
         String email = UEmail.getText().toString().trim();
@@ -100,13 +150,21 @@ public class RegisterActivity extends AppCompatActivity {
                                 userHash.put("school", SO.getText().toString());
                                 userHash.put("email", UEmail.getText().toString());
                                 userHash.put("profilePhoto", "default");
-                                userHash.put("description", "");
-                                if (ST.isChecked()) {
-                                final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child("Students").child(id);
-                                reference.setValue(userHash);
+                                userHash.put("profilePhotoURL", "default");
+                                if (TU.isChecked()) {
+                                    userHash.put("subject", "");
+                                    userHash.put("areaOfExpertise","");
                                 }
                                 else {
-                                    userHash.put("areaOfExpertise", "");
+                                userHash.put("areaOfExpertise", "");
+                                }
+                                userHash.put("description", "");
+                                if (ST.isChecked()) {
+                                    final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child("Students").child(id);
+                                    reference.setValue(userHash);
+                                }
+                                else {
+
                                     final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child("Tutors").child(id);
                                     reference.setValue(userHash);
                                 }
@@ -123,5 +181,54 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        switch (adapterView.getId()) {
+            case R.id.Subject:
+                SubjectText = adapterView.getSelectedItem().toString();
+                ArrayAdapter<CharSequence> E = ArrayAdapter.createFromResource(this, R.array.English, android.R.layout.simple_spinner_item);
+                E.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<CharSequence> F = ArrayAdapter.createFromResource(this, R.array.Foreign_Language, android.R.layout.simple_spinner_item);
+                F.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<CharSequence> M = ArrayAdapter.createFromResource(this, R.array.Math, android.R.layout.simple_spinner_item);
+                M.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<CharSequence> Sc = ArrayAdapter.createFromResource(this, R.array.Science, android.R.layout.simple_spinner_item);
+                Sc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<CharSequence> SS = ArrayAdapter.createFromResource(this, R.array.Social_Studies, android.R.layout.simple_spinner_item);
+                SS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                switch (SubjectText){
+                    case "English":
+                        FOE.setAdapter(E);
+                        //FOE.setOnItemSelectedListener(this);
+                        break;
+                    case "Foreign Language":
+                        FOE.setAdapter(F);
+                        //FOE.setOnItemSelectedListener(this);
+                        break;
+                    case "Math":
+                        FOE.setAdapter(M);
+                        // FOE.setOnItemSelectedListener(this);
+                        break;
+                    case "Science":
+                        FOE.setAdapter(Sc);
+                        //FOE.setOnItemSelectedListener(this);
+                        break;
+                    case "Social Studies":
+                        FOE.setAdapter(SS);
+                        //FOE.setOnItemSelectedListener(this);
+                        break;
+                    default:
+                        break;
+                }
+            case R.id.FOE:
+                String ExpertText = adapterView.getSelectedItem().toString();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }
