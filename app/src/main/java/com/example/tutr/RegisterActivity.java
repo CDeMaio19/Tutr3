@@ -94,22 +94,19 @@ public class RegisterActivity extends AppCompatActivity {
                             FirebaseUser firebaseUser = UAuth.getCurrentUser();
                             if(firebaseUser != null) {
                                 String id = firebaseUser.getUid();
-
-
                                 HashMap<String, String> userHash = new HashMap<>();
                                 userHash.put("id", id);
                                 userHash.put("username", FN.getText().toString() + "_" + LN.getText().toString());
                                 userHash.put("school", SO.getText().toString());
                                 userHash.put("email", UEmail.getText().toString());
-                                userHash.put("profilePhotoURL", "default");
-                                userHash.put("areaOfExpertise", "");
+                                userHash.put("profilePhoto", "default");
                                 userHash.put("description", "");
-
-
                                 if (ST.isChecked()) {
-                                    final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child("Students").child(id);
-                                    reference.setValue(userHash);
-                                } else {
+                                final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child("Students").child(id);
+                                reference.setValue(userHash);
+                                }
+                                else {
+                                    userHash.put("areaOfExpertise", "");
                                     final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child("Tutors").child(id);
                                     reference.setValue(userHash);
                                 }

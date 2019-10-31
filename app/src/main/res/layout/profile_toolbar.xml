@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/options_menu" />
     <include
-        android:id="@+id/save_profileChanges"
+        android:id="@+id/save_profile_changes"
         layout="@layout/save_profile_changes"
         android:visibility="invisible"/>
 
