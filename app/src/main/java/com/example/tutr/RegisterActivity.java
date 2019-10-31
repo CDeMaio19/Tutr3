@@ -150,13 +150,9 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                 userHash.put("school", SO.getText().toString());
                                 userHash.put("email", UEmail.getText().toString());
                                 userHash.put("profilePhoto", "default");
-                                userHash.put("profilePhotoURL", "default");
                                 if (TU.isChecked()) {
                                     userHash.put("subject", "");
                                     userHash.put("areaOfExpertise","");
-                                }
-                                else {
-                                userHash.put("areaOfExpertise", "");
                                 }
                                 userHash.put("description", "");
                                 if (ST.isChecked()) {
