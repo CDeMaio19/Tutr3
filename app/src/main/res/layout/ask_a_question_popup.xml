@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="400dp"
+    android:background="@color/colorPrimary"
+    android:textAlignment="center"
+    android:layout_height="700dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/popup_greeting"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/major_subject_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:gravity="start"
+            android:text="@string/major_subject"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/major_subject_spinner" />
+
+        <TextView
+            android:id="@+id/minor_subject_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="start"
+            android:textSize="20sp"
+            android:text="@string/minor_subject"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/major_subject_textView"
+            app:layout_constraintTop_toTopOf="@id/minor_subject_spinner"/>
+
+        <Spinner
+            android:id="@+id/major_subject_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="end" />
+
+        <Spinner
+            android:id="@+id/minor_subject_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/major_subject_spinner"
+            android:gravity="end"/>
+
+        <TextView
+            android:id="@+id/question_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/questions"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/minor_subject_textView" />
+
+        <EditText
+            android:id="@+id/question_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:hint="@string/ask_a_question"
+            app:layout_constraintTop_toBottomOf="@+id/question_textView"
+            android:background="@color/grey"/>
+        <TextView
+            android:id="@+id/question_description_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/description"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/question_editText" />
+
+        <EditText
+            android:id="@+id/question_description_editText"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:gravity="top"
+            app:layout_constraintStart_toStartOf="parent"
+            android:hint="@string/elaborate_on_question"
+            app:layout_constraintTop_toBottomOf="@id/question_description_textView"
+            android:scrollHorizontally="false"
+            android:inputType="textMultiLine"
+            android:background="@color/grey"/>
+
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Submit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/question_description_editText" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

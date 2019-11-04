@@ -158,7 +158,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                 }
                                 else {
                                 userHash.put("areaOfExpertise", "");
-                                userHash.put("subject", "");
                                 }
                                 userHash.put("description", "");
 
