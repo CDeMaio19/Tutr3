@@ -42,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     private Spinner FOE;
     private Spinner Sub;
     private String SubjectText = "English";
+    private String ExpertText;
 
     private RadioButton ST;
     private RadioButton TU;
@@ -151,8 +152,8 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                 userHash.put("email", UEmail.getText().toString());
                                 userHash.put("profilePhoto", "default");
                                 if (TU.isChecked()) {
-                                    userHash.put("subject", "");
-                                    userHash.put("areaOfExpertise","");
+                                    userHash.put("subject", SubjectText);
+                                    userHash.put("areaOfExpertise",ExpertText);
                                 }
                                 userHash.put("description", "");
                                 if (ST.isChecked()) {
@@ -219,7 +220,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                         break;
                 }
             case R.id.FOE:
-                String ExpertText = adapterView.getSelectedItem().toString();
+                ExpertText = adapterView.getSelectedItem().toString();
         }
     }
 
