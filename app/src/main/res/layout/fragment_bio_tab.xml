@@ -1,88 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Bio_Tab_Fragment"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/contact_information_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/contact_info"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.186" />
+    android:layout_height="match_parent"
+    android:paddingTop="65dp">
 
-    <EditText
-        android:id="@+id/contact_information_edit_text"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        app:layout_constraintTop_toBottomOf="@+id/contact_information_text_view"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine"
-        android:scrollHorizontally="false" />
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/contact_information_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contact_info"
+                android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/school_occupation_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/School"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contact_information_edit_text" />
+            <EditText
+                android:id="@+id/contact_information_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:scrollHorizontally="false" />
 
-    <EditText
-        android:id="@+id/school_occupation_edit_text"
+            <TextView
+                android:id="@+id/school_occupation_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/School"
+                android:textSize="20sp"/>
+
+            <EditText
+                android:id="@+id/school_occupation_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                tools:layout_editor_absoluteX="-44dp"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:scrollHorizontally="false" />
+
+            <TextView
+                android:id="@+id/description_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textSize="20sp"
+                 />
+
+            <EditText
+                android:id="@+id/description_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                app:layout_constraintTop_toBottomOf="@+id/description_text_view"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:scrollHorizontally="false" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/area_of_expertise"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+    </ScrollView>
+    <ExpandableListView
+        android:id="@+id/area_of_expertise_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        app:layout_constraintTop_toBottomOf="@+id/school_occupation_text_view"
-        tools:layout_editor_absoluteX="-44dp"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine"
-        android:scrollHorizontally="false" />
-
-    <TextView
-        android:id="@+id/description_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/description"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/area_of_expertise_text_edit_text" />
-
-    <EditText
-        android:id="@+id/description_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        app:layout_constraintTop_toBottomOf="@+id/description_text_view"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine"
-        android:scrollHorizontally="false" />
-
-    <TextView
-        android:id="@+id/area_of_expertise_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/area_of_expertise"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/school_occupation_edit_text" />
-
-    <EditText
-        android:id="@+id/area_of_expertise_text_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine"
-        android:scrollHorizontally="false"
-        app:layout_constraintTop_toBottomOf="@+id/area_of_expertise_text_view" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="242dp"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        />
+</LinearLayout>

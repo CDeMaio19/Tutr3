@@ -1,65 +1,97 @@
 package com.example.tutr;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.Activity;
+
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
-import com.bumptech.glide.Glide;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
+import java.util.ArrayList;
+
 
 public class LoggedInActivity extends AppCompatActivity {
-    private final int REQUEST_CODE = 1;
-    private ImageView profileImage;
+    private String majorSubjectSelected;
+    private Spinner majorSubjectSpinner;
+    private Spinner minorSubjectSpinner;
+    private MatchingFragment matchingFragment = new MatchingFragment();
+    private ChatFragment chatFragment = new ChatFragment();
+    private ProfileFragment profileFragment = new ProfileFragment();
+    private Bundle userStatusBundle;
+    public DataSnapshot myDataSnapshot;
+    private boolean isTutor;
+    private AlertDialog alert;
+    private View popupView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_in);
+
+        Intent intent = getIntent();
+        isTutor = intent.getBooleanExtra("User Status",false);
+        userStatusBundle = new Bundle();
+        userStatusBundle.putBoolean("User Status",isTutor);
+
+        DatabaseReference subjectsReference = FirebaseDatabase.getInstance().getReference("Subjects");
+        subjectsReference.addValueEventListener(subjectsValueEventListener);
+
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_nav);
+        //stops keyboard from automatically popping up on the start of the activity
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        profileImage = findViewById(R.id.user_profile);
+        //starts the Matching fragment as the initial fragment for the user to see
         FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.fragment_ui_container, new ChatFragment());
-        ft.addToBackStack("Chat Fragment");
+        final FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.fragment_ui_container, new MatchingFragment());
+        ft.addToBackStack("Matching Fragment");
         ft.commit();
+
         Toolbar toolbar = findViewById(R.id.chat_toolbar);
         setSupportActionBar(toolbar);
 
+        //sets the cases for the bottom navigation - allows the switching between fragments on click of the bottom navigation
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment selectedFragment = null;
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 switch (menuItem.getItemId()) {
-                    case R.id.nav_chat:
-                        selectedFragment = new ChatFragment();
-
+                    case R.id.nav_matching:
+                        fragmentTransaction.replace(R.id.fragment_ui_container, matchingFragment);
                         break;
-                    case R.id.nav_questions:
-                        selectedFragment = new QuestionFragment();
+                    case R.id.nav_chat:
+                        fragmentTransaction.replace(R.id.fragment_ui_container, chatFragment);
                         break;
                     case R.id.nav_profile:
-                        selectedFragment = new ProfileFragment();
-
+                        profileFragment.setArguments(userStatusBundle);
+                        fragmentTransaction.replace(R.id.fragment_ui_container, profileFragment);
                 }
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_ui_container, selectedFragment).commit();
-
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
 
                 return true;
             }
@@ -67,5 +99,122 @@ public class LoggedInActivity extends AppCompatActivity {
 
     }
 
+    //creates the initial popup screen for asking a question that the student will see when they log into the application
+    public void Popup(final DataSnapshot dataSnapshot)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        if(inflater!=null) {
+            popupView = inflater.inflate(R.layout.ask_a_question_popup, null);
+        }
+        Button submit = popupView.findViewById(R.id.submit_button);
+        submit.setOnClickListener(submitOnClickListener);
+        //spinners to display the major and minor subjects for the question being asked
+        majorSubjectSpinner = popupView.findViewById(R.id.major_subject_spinner);
+        minorSubjectSpinner = popupView.findViewById(R.id.minor_subject_spinner);
+        final ArrayList<String> majorSubjectsList = new ArrayList<>();
+        final ArrayList<String> minorSubjectsList = new ArrayList<>();
+        final ArrayAdapter<String> majorSubjectsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, majorSubjectsList);
+        final ArrayAdapter<String> minorSubjectsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, minorSubjectsList);
+        //loops through all of the major subjects in the database and adds it to the list that will be used in the spinner
+        for (DataSnapshot majorSubject: dataSnapshot.getChildren())
+        {
+            majorSubjectsList.add(majorSubject.getKey());
+            majorSubjectsAdapter.notifyDataSetChanged();
+
+        }
+        majorSubjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                majorSubjectSelected = (String)majorSubjectSpinner.getSelectedItem();
+                minorSubjectsAdapter.clear();
+                //depending on the major subject selected get all children under that node in the database and put into a list
+                for (DataSnapshot minorSubject: dataSnapshot.child(majorSubjectSelected).getChildren())
+                {
+                    minorSubjectsList.add(minorSubject.getKey());
+                    minorSubjectsAdapter.notifyDataSetChanged();
+                }
+
+            }
+
+            //sets the default value of the spinners if nothing is selected
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                majorSubjectSelected = "English";
+                for (DataSnapshot minorSubject: dataSnapshot.child(majorSubjectSelected).getChildren())
+                {
+                    minorSubjectsList.add(minorSubject.getKey());
+                    minorSubjectsAdapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+        //sets the adapters for both spinners so the data can be viewed
+        majorSubjectsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        majorSubjectSpinner.setAdapter(majorSubjectsAdapter);
+        minorSubjectsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        minorSubjectSpinner.setAdapter(minorSubjectsAdapter);
+        builder.setView(popupView);
+        alert = builder.create();
+        //show popup window
+        alert.show();
+
+
+    }
+    private ValueEventListener subjectsValueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            myDataSnapshot = dataSnapshot;
+            if(!isTutor) {
+                Popup(myDataSnapshot);
+            }
+
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
+    private View.OnClickListener submitOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            alert.dismiss();
+            SetMatchingData();
+        }
+    };
+    //sets the data that the matching fragment will use to find the correct tutors for the given question
+    private void SetMatchingData()
+    {
+        String majorSubject;
+        String minorSubject;
+        String question;
+        String description;
+
+        EditText questionData = popupView.findViewById(R.id.question_editText);
+        EditText descriptionData = popupView.findViewById(R.id.question_description_editText);
+
+        majorSubject = (String)majorSubjectSpinner.getSelectedItem();
+        minorSubject = (String)minorSubjectSpinner.getSelectedItem();
+
+        question = questionData.getText().toString();
+        description = descriptionData.getText().toString();
+
+        //adds the question to the firebase database
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference questionsReference = FirebaseDatabase.getInstance().getReference("Questions").child(firebaseUser.getUid());
+        questionsReference.push().setValue(new Question(question,majorSubject,minorSubject,description));
+
+        Bundle bundle = new Bundle();
+        //data the matching fragment will receive
+        bundle.putString("Major Subject", majorSubject);
+        bundle.putString("Minor Subject", minorSubject);
+        bundle.putString("Question", question);
+        bundle.putString("Description", description);
+        MatchingFragment matchingFragment = new MatchingFragment();
+        matchingFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_ui_container, matchingFragment).commit();
+    }
 
 }

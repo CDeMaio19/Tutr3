@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/nav_matching"
+        android:icon="@drawable/ic_match_black_24dp"
+        android:title="@string/Matching"/>
+    <item
         android:id="@+id/nav_chat"
         android:icon="@drawable/ic_question_answer_black_24dp"
         android:title="@string/chats"/>
 
-    <item
-    android:id="@+id/nav_questions"
-    android:icon="@drawable/ic_live_help_black_24dp"
-    android:title="@string/questions"/>
+
     <item
     android:id="@+id/nav_profile"
     android:icon="@drawable/ic_person_black_24dp"

@@ -4,18 +4,18 @@ public class User {
     private String email;
     private String school;
     private String id;
-    private String profilePhotoURL;
+    private String profilePhoto;
     private String username;
     private String areaOfExpertise;
     private String description;
 
 
 
-    public User(String email, String school, String id, String profilePhotoURL, String username, String areaOfExpertise, String description) {
+    public User(String email, String school, String id, String profilePhoto, String username, String areaOfExpertise, String description) {
         this.email = email;
         this.school = school;
         this.id = id;
-        this.profilePhotoURL = profilePhotoURL;
+        this.profilePhoto = profilePhoto;
         this.username = username;
         this.areaOfExpertise = areaOfExpertise;
         this.description = description;
@@ -56,12 +56,12 @@ public class User {
         this.username = username;
     }
 
-    public String getProfilePhotoURL() {
-        return profilePhotoURL;
+    public String getProfilePhoto() {
+        return profilePhoto;
     }
 
-    public void setProfilePhotoURL(String profilePhotoURL) {
-        this.profilePhotoURL = profilePhotoURL;
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
     }
     public String getAreaOfExpertise() {
         return areaOfExpertise;
