@@ -80,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         FOE.setVisibility(View.INVISIBLE);
         Sub.setVisibility(View.INVISIBLE);
 
-        ArrayAdapter<CharSequence> S = ArrayAdapter.createFromResource(this, R.array.Subjects, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> S = ArrayAdapter.createFromResource(this, R.array.Subjects, android.R.layout.simple_spinner_item);
         S.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Sub.setAdapter(S);
         Sub.setOnItemSelectedListener(this);
@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         FOE.setAdapter(S);
         FOE.setOnItemSelectedListener(this);
 
-        ArrayAdapter<CharSequence> E = ArrayAdapter.createFromResource(this, R.array.English, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> E = ArrayAdapter.createFromResource(this, R.array.English, android.R.layout.simple_spinner_item);
         E.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ArrayAdapter<CharSequence> F = ArrayAdapter.createFromResource(this, R.array.Foreign_Language, android.R.layout.simple_spinner_item);
         F.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -108,7 +108,9 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
             @Override
             public void onClick(View view) {
                 FOE.setVisibility(View.VISIBLE);
+                FOE.setAdapter(E);
                 Sub.setVisibility(View.VISIBLE);
+                Sub.setAdapter(S);
             }
         });
 
