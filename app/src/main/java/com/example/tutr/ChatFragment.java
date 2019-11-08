@@ -44,56 +44,57 @@ public class ChatFragment extends Fragment {
     private ListView conversationList;
 
     @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState ) {
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState ) {
             super.onCreate(savedInstanceState);
-            firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-            chatsReference = FirebaseDatabase.getInstance().getReference("Chats").child("ChatRooms");
+        //verify the users status
             if(((LoggedInActivity)getActivity()).isTutor)
             {
                 currentUserType = "Tutors";
                 otherUserType = "Students";
-
-
             }
             else {
                 currentUserType = "Students";
                 otherUserType = "Tutors";
             }
+            firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            chatsReference = FirebaseDatabase.getInstance().getReference("Chats").child("ChatRooms");
+            DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("Users").child(otherUserType);
             //views
             View fragmentRootView = inflater.inflate(R.layout.fragment_chat,container,false);
             profileImage = fragmentRootView.findViewById(R.id.profile_image);
             toolbarUsername = fragmentRootView.findViewById(R.id.toolbarUsername);
-            ImageButton conversationMenu = fragmentRootView.findViewById(R.id.menu);
-            ImageButton sendButton = fragmentRootView.findViewById(R.id.sendButton);
             chatEditText = fragmentRootView.findViewById(R.id.editTextMessage);
             listOfMessages = fragmentRootView.findViewById(R.id.list_of_messages);
             conversationList = fragmentRootView.findViewById(R.id.list_of_conversations);
             conversationList.setOnItemClickListener(chatRoomSelection);
+            ImageButton conversationMenu = fragmentRootView.findViewById(R.id.menu);
+            ImageButton sendButton = fragmentRootView.findViewById(R.id.sendButton);
 
             final DrawerLayout drawerLayout = fragmentRootView.findViewById(R.id.conversation_list_NavDrawer);
 
             Bundle bundle;
             bundle = getArguments();
-                if(bundle!=null)
-                {
-                    userID = bundle.getString("Tutor ID");
-                    toolbarUsername.setText(bundle.getString("Tutor Username"));
-                    String profileString = bundle.getString("Tutor Profile Photo");
-                    SetUserProfileImage(profileString,profileImage);
-                    chatRoomIDReference = chatsReference.push().getKey();
-                    chatsReference.child(chatRoomIDReference).setValue(new ChatRoom(chatRoomIDReference,userID,firebaseUser.getUid(),0));
-
+            //get the tutors information from the match
+            if(bundle!=null)
+            {
+                userID = bundle.getString("Tutor ID");
+                toolbarUsername.setText(bundle.getString("Tutor Username"));
+                String profileString = bundle.getString("Tutor Profile Photo");
+                if(profileString!=null) {
+                    SetUserProfileImage(profileString, profileImage);
                 }
-
-                DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("Users").child(otherUserType);
+                chatRoomIDReference = chatsReference.push().getKey();
+                //creates a new chat room with the tutor and current users information
+                if(chatRoomIDReference!=null) {
+                    chatsReference.child(chatRoomIDReference).setValue(new ChatRoom(chatRoomIDReference, userID, firebaseUser.getUid(), 0));
+                }
+            }
                 usersReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                    //sets the chat rooms for the current user
                     SetConversationList(dataSnapshot);
-
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -107,6 +108,7 @@ public class ChatFragment extends Fragment {
 
                 }
             });
+                //on click send the users message
                 sendButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -119,7 +121,7 @@ public class ChatFragment extends Fragment {
 
             return fragmentRootView;
         }
-
+        //displays the chat messages for the current chat room
     private void DisplayChatMessages() {
 
         FirebaseListAdapter <Message> adapter = new FirebaseListAdapter<Message>(getActivity(), Message.class,
@@ -138,6 +140,12 @@ public class ChatFragment extends Fragment {
                         if(dataSnapshot.child(currentUserType).hasChild(model.getSender())){
                             messageUser.setText(dataSnapshot.child(currentUserType).child(model.getSender()).child("username").getValue().toString());
                         }
+                        else if (dataSnapshot.child(otherUserType).hasChild(model.getSender()))
+                        {
+                            messageUser.setText(dataSnapshot.child(otherUserType).child(model.getSender()).child("username").getValue().toString());
+
+                        }
+
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -165,6 +173,7 @@ public class ChatFragment extends Fragment {
                 CircleImageView profileImage = v.findViewById(R.id.profile_image);
                 TextView username = v.findViewById(R.id.username);
                 TextView timeOfLastMessage = v.findViewById(R.id.time_of_last_message);
+                //if there are no messages leave this textView blank
                 if(model.getTimeOfLastMessage() == 0)
                 {
                     timeOfLastMessage.setText("");
@@ -172,9 +181,14 @@ public class ChatFragment extends Fragment {
                 else {
                     timeOfLastMessage.setText(DateFormat.format("hh:mm - MM-dd-yyyy", model.getTimeOfLastMessage()));
                 }
+                //check all of the users of the opposite status(this will be the previous chats the user has participated in)
+                //chats always are from student to tutor or vice versa
                 for(DataSnapshot users:usersSnapshot.getChildren())
                 {
+                    //if the current user is a student
                     if(!currentUserType.equals("Tutors")) {
+                        //if the chat room's tutorID matches the id of the current user then populate the views with their
+                        // information
                         if (model.getTutorID().equals(users.child("id").getValue())) {
                             chatRoomIDReference = model.getId();
                             String profileString = users.child("profilePhoto").getValue(String.class);
@@ -184,6 +198,7 @@ public class ChatFragment extends Fragment {
                             }
                         }
                     }
+                    //otherwise a tutor is logged in and the chat room information should be filled with the students info
                     else {
                         if (model.getStudentID().equals(users.child("id").getValue())) {
                             String profileString = users.child("profilePhoto").getValue(String.class);
@@ -199,6 +214,7 @@ public class ChatFragment extends Fragment {
         conversationList.setAdapter(adapter);
 
     }
+    //method to convert the profile string stored into firebase into a bitmap to be loaded into the circle imageView
     private void SetUserProfileImage(String profileString,CircleImageView profileImage)
     {
         if (!profileString.equals("default")) {
@@ -217,28 +233,29 @@ public class ChatFragment extends Fragment {
         }
 
     }
+    //event handler to get the information of the current chat room selected
     private AdapterView.OnItemClickListener chatRoomSelection = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
             final ChatRoom chatRoom = (ChatRoom) conversationList.getItemAtPosition(position);
-
             chatsReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    //search all of the chat rooms
                     for(DataSnapshot snapshot:dataSnapshot.getChildren())
                     {
+                        //if the chat room id of the selected item equals the current snapshot's chatRoomID
+                        //then they refer to the same chat and the information should be displayed in the chat fragment
                         if(chatRoom.getId().equals(snapshot.child("id").getValue())) {
+                            //sets the charRoomIDReferences so messages can be displayed and sent in this chat room specifically
                             chatRoomIDReference = snapshot.child("id").getValue(String.class);
-                            if(otherUserType.equals("Tutors"))
-                            {
-                                CircleImageView tempProfile;
-                                TextView tempUsername;
-                                tempProfile = view.findViewById(R.id.profile_image);
-                                tempUsername = view.findViewById(R.id.username);
-                                profileImage.setImageDrawable(tempProfile.getDrawable());
-                                toolbarUsername.setText(tempUsername.getText());
+                            CircleImageView tempProfile;
+                            TextView tempUsername;
+                            tempProfile = view.findViewById(R.id.profile_image);
+                            tempUsername = view.findViewById(R.id.username);
+                            profileImage.setImageDrawable(tempProfile.getDrawable());
+                            toolbarUsername.setText(tempUsername.getText());
 
-                            }
                             DisplayChatMessages();
                         }
 
