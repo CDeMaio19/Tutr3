@@ -1,15 +1,15 @@
 package com.example.tutr;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -19,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,56 +28,68 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
-
 
 public class ChatFragment extends Fragment {
     private DatabaseReference chatsReference;
-    private DatabaseReference chatRoomIDReference;
+    private String chatRoomIDReference;
+    private TextView toolbarUsername;
+    private String currentUserType;
+    private String otherUserType;
     private CircleImageView profileImage;
-    private UserAdapter userAdapter;
     private EditText chatEditText;
     private String userID;
     private FirebaseUser firebaseUser;
     private ListView listOfMessages;
-    private RecyclerView conversationList;
+    private ListView conversationList;
 
     @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState ) {
             super.onCreate(savedInstanceState);
-            View fragmentRootView = inflater.inflate(R.layout.fragment_chat,container,false);
             firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-            chatsReference = FirebaseDatabase.getInstance().getReference("Chats").child(firebaseUser.getUid()).child("ChatRooms");
-            profileImage = fragmentRootView.findViewById(R.id.profile_image);
-            TextView toolbarUsername = fragmentRootView.findViewById(R.id.toolbarUsername);
-            LayoutInflater navDrawerInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View navDrawer = navDrawerInflater.inflate(R.layout.conversation_list_nav_drawer,null);
-            conversationList = navDrawer.findViewById(R.id.list_of_conversations);
-            Bundle bundle = getArguments();
-            if(bundle!=null)
+            chatsReference = FirebaseDatabase.getInstance().getReference("Chats").child("ChatRooms");
+            if(((LoggedInActivity)getActivity()).isTutor)
             {
-                userID = bundle.getString("Tutor ID");
-                toolbarUsername.setText(bundle.getString("Tutor Username"));
-                String profileString = bundle.getString("Tutor Profile Photo");
-                SetUserProfileImage(profileString,profileImage);
-                chatRoomIDReference = chatsReference.push();
-                chatRoomIDReference.setValue(new ChatRoom(userID,"0"));
-            }
-            else
-            {
-                chatRoomIDReference = FirebaseDatabase.getInstance().getReference();            }
+                currentUserType = "Tutors";
+                otherUserType = "Students";
 
-            chatsReference.addValueEventListener(new ValueEventListener() {
+
+            }
+            else {
+                currentUserType = "Students";
+                otherUserType = "Tutors";
+            }
+            //views
+            View fragmentRootView = inflater.inflate(R.layout.fragment_chat,container,false);
+            profileImage = fragmentRootView.findViewById(R.id.profile_image);
+            toolbarUsername = fragmentRootView.findViewById(R.id.toolbarUsername);
+            ImageButton conversationMenu = fragmentRootView.findViewById(R.id.menu);
+            ImageButton sendButton = fragmentRootView.findViewById(R.id.sendButton);
+            chatEditText = fragmentRootView.findViewById(R.id.editTextMessage);
+            listOfMessages = fragmentRootView.findViewById(R.id.list_of_messages);
+            conversationList = fragmentRootView.findViewById(R.id.list_of_conversations);
+            conversationList.setOnItemClickListener(chatRoomSelection);
+
+            final DrawerLayout drawerLayout = fragmentRootView.findViewById(R.id.conversation_list_NavDrawer);
+
+            Bundle bundle;
+            bundle = getArguments();
+                if(bundle!=null)
+                {
+                    userID = bundle.getString("Tutor ID");
+                    toolbarUsername.setText(bundle.getString("Tutor Username"));
+                    String profileString = bundle.getString("Tutor Profile Photo");
+                    SetUserProfileImage(profileString,profileImage);
+                    chatRoomIDReference = chatsReference.push().getKey();
+                    chatsReference.child(chatRoomIDReference).setValue(new ChatRoom(chatRoomIDReference,userID,firebaseUser.getUid(),0));
+
+                }
+
+                DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("Users").child(otherUserType);
+                usersReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                     SetConversationList(dataSnapshot);
 
                 }
@@ -87,25 +98,19 @@ public class ChatFragment extends Fragment {
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
-            });
-            final DrawerLayout drawerLayout = fragmentRootView.findViewById(R.id.side_nav_drawer_layout);
-            ImageButton conversationMenu = fragmentRootView.findViewById(R.id.menu);
-            ImageButton sendButton = fragmentRootView.findViewById(R.id.sendButton);
-            chatEditText = fragmentRootView.findViewById(R.id.editTextMessage);
-            listOfMessages = fragmentRootView.findViewById(R.id.list_of_messages);
+                });
 
-            conversationMenu.setOnClickListener(new View.OnClickListener() {
+                conversationMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     drawerLayout.openDrawer(GravityCompat.START);
 
                 }
             });
-            DisplayChatMessages();
-            sendButton.setOnClickListener(new View.OnClickListener() {
+                sendButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-                public void onClick(View v) {
+            public void onClick(View v) {
                 if (!chatEditText.getText().toString().equals("")) {
                     SendMessage();
                 }
@@ -118,7 +123,7 @@ public class ChatFragment extends Fragment {
     private void DisplayChatMessages() {
 
         FirebaseListAdapter <Message> adapter = new FirebaseListAdapter<Message>(getActivity(), Message.class,
-                R.layout.final_message, chatsReference.child("Messages")) {
+                R.layout.final_message, chatsReference.child(chatRoomIDReference).child("Messages")) {
             @Override
             protected void populateView(View v, final Message model, int position) {
                 TextView messageText = v.findViewById(R.id.message_text);
@@ -130,12 +135,8 @@ public class ChatFragment extends Fragment {
                 FirebaseDatabase.getInstance().getReference().child("Users").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.child("Tutors").hasChild(model.getSender())){
-                            messageUser.setText(dataSnapshot.child("Tutors").child(model.getSender()).child("username").getValue().toString());
-                        }
-                        else
-                        {
-                            messageUser.setText(dataSnapshot.child("Students").child(model.getSender()).child("username").getValue().toString());
+                        if(dataSnapshot.child(currentUserType).hasChild(model.getSender())){
+                            messageUser.setText(dataSnapshot.child(currentUserType).child(model.getSender()).child("username").getValue().toString());
                         }
                     }
                     @Override
@@ -151,47 +152,109 @@ public class ChatFragment extends Fragment {
     }
     private void SendMessage()
     {
-        chatsReference.child(chatRoomIDReference.getKey()).child("Messages").push().setValue(
+        chatsReference.child(chatRoomIDReference).child("Messages").push().setValue(
                             new Message(chatEditText.getText().toString(),firebaseUser.getUid(),userID));
         chatEditText.setText("");
 
     }
-    void SetConversationList(final DataSnapshot chatsSnapshot)
-    {
-        final ArrayList<User> users = new ArrayList<>();
-        final DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("Users").child("Tutors");
-        usersReference.addValueEventListener(new ValueEventListener() {
+    private void SetConversationList(final DataSnapshot usersSnapshot) {
+        final FirebaseListAdapter<ChatRoom> adapter = new FirebaseListAdapter<ChatRoom>(getActivity(),ChatRoom.class,
+                                                                    R.layout.conversation_list_item,chatsReference) {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    System.out.println(chatsSnapshot.child("userID").getValue());
-                    User user = snapshot.getValue(User.class);
-                    if (user != null && user.getId().equals(chatsSnapshot.child("userID").getValue())) {
-                        users.add(user);
+            protected void populateView(View v, ChatRoom model, int position) {
+                CircleImageView profileImage = v.findViewById(R.id.profile_image);
+                TextView username = v.findViewById(R.id.username);
+                TextView timeOfLastMessage = v.findViewById(R.id.time_of_last_message);
+                if(model.getTimeOfLastMessage() == 0)
+                {
+                    timeOfLastMessage.setText("");
+                }
+                else {
+                    timeOfLastMessage.setText(DateFormat.format("hh:mm - MM-dd-yyyy", model.getTimeOfLastMessage()));
+                }
+                for(DataSnapshot users:usersSnapshot.getChildren())
+                {
+                    if(!currentUserType.equals("Tutors")) {
+                        if (model.getTutorID().equals(users.child("id").getValue())) {
+                            chatRoomIDReference = model.getId();
+                            String profileString = users.child("profilePhoto").getValue(String.class);
+                            username.setText(users.child("username").getValue(String.class));
+                            if (profileString != null) {
+                                SetUserProfileImage(profileString, profileImage);
+                            }
+                        }
+                    }
+                    else {
+                        if (model.getStudentID().equals(users.child("id").getValue())) {
+                            String profileString = users.child("profilePhoto").getValue(String.class);
+                            username.setText(users.child("username").getValue(String.class));
+                            if (profileString != null) {
+                                SetUserProfileImage(profileString, profileImage);
+                            }
+                        }
                     }
                 }
-                System.out.println(users);
-                userAdapter = new UserAdapter(getContext(),users);
-                conversationList.setAdapter(userAdapter);
             }
+        };
+        conversationList.setAdapter(adapter);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
-    void SetUserProfileImage(String profileString,CircleImageView profileImage)
+    private void SetUserProfileImage(String profileString,CircleImageView profileImage)
     {
         if (!profileString.equals("default")) {
-            byte[] encodeByte = Base64.decode(profileString, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            profileImage.setImageBitmap(bitmap);
+            try {
+                byte[] encodeByte = Base64.decode(profileString, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                profileImage.setImageBitmap(bitmap);
+            }
+            catch (IllegalArgumentException IAE)
+            {
+                Log.e("Photo error","Loading profile photo error",IAE);
+            }
+
         } else {
             profileImage.setImageResource(R.drawable.graduation_2841875_640);
         }
 
     }
+    private AdapterView.OnItemClickListener chatRoomSelection = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+            final ChatRoom chatRoom = (ChatRoom) conversationList.getItemAtPosition(position);
+
+            chatsReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot snapshot:dataSnapshot.getChildren())
+                    {
+                        if(chatRoom.getId().equals(snapshot.child("id").getValue())) {
+                            chatRoomIDReference = snapshot.child("id").getValue(String.class);
+                            if(otherUserType.equals("Tutors"))
+                            {
+                                CircleImageView tempProfile;
+                                TextView tempUsername;
+                                tempProfile = view.findViewById(R.id.profile_image);
+                                tempUsername = view.findViewById(R.id.username);
+                                profileImage.setImageDrawable(tempProfile.getDrawable());
+                                toolbarUsername.setText(tempUsername.getText());
+
+                            }
+                            DisplayChatMessages();
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+    };
+
+
+
 
 }
 

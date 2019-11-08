@@ -31,8 +31,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-
 public class LoggedInActivity extends AppCompatActivity {
+
     private String majorSubjectSelected;
     private Spinner majorSubjectSpinner;
     private Spinner minorSubjectSpinner;
@@ -42,7 +42,7 @@ public class LoggedInActivity extends AppCompatActivity {
     private TutorRatingsFragment tutorRatingsFragment = new TutorRatingsFragment();
     private Bundle userStatusBundle;
     public DataSnapshot myDataSnapshot;
-    private boolean isTutor;
+    public static boolean isTutor;
     private AlertDialog alert;
     private View popupView;
 

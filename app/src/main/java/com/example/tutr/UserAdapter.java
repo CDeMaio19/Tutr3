@@ -23,23 +23,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public UserAdapter(Context context, List<User> usersList) {
         this.context = context;
         this.usersList = usersList;
-    }
-    public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView username;
-        public CircleImageView profileImage;
-
-        public ViewHolder(View itemView)
-        {
-            super(itemView);
-            username = itemView.findViewById(R.id.username);
-            profileImage = itemView.findViewById(R.id.profile_image);
-        }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        System.out.println("in create view holder");
         View view = LayoutInflater.from(context).inflate(R.layout.conversation_list_item,parent,false);
         return new UserAdapter.ViewHolder(view);
     }
@@ -61,5 +51,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return usersList.size();
+    }
+    public class ViewHolder extends RecyclerView.ViewHolder{
+
+        public TextView username;
+        public CircleImageView profileImage;
+
+        public ViewHolder(View itemView)
+        {
+            super(itemView);
+            username = itemView.findViewById(R.id.username);
+            profileImage = itemView.findViewById(R.id.profile_image);
+        }
     }
 }
