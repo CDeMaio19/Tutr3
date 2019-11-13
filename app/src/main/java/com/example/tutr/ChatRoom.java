@@ -4,6 +4,8 @@ package com.example.tutr;
 public class ChatRoom {
     private String tutorID;
     private String studentID;
+    private String questionAsked;
+    private boolean active;
     private String id;
     private long timeOfLastMessage;
 
@@ -12,13 +14,13 @@ public class ChatRoom {
 
     }
 
-
-
-    public ChatRoom(String id, String tutorID, String studentID, long timeOfLastMessage) {
+    public ChatRoom(String id, String tutorID, String studentID, long timeOfLastMessage, String questionAsked, boolean active) {
         this.timeOfLastMessage = timeOfLastMessage;
         this.tutorID = tutorID;
         this.studentID = studentID;
         this.id = id;
+        this.questionAsked = questionAsked;
+        this.active = active;
     }
 
     public long getTimeOfLastMessage() {
@@ -50,5 +52,19 @@ public class ChatRoom {
     public void setId(String id) {
         this.id = id;
     }
+    public String getQuestionAsked() {
+        return questionAsked;
+    }
 
+    public void setQuestionAsked(String questionAsked) {
+        this.questionAsked = questionAsked;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

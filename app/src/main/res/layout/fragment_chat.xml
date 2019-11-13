@@ -2,72 +2,79 @@
 
 <androidx.drawerlayout.widget.DrawerLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/conversation_list_NavDrawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".LoggedInActivity">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/toolbar">
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/chat_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/LightBlue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/chat_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_alignParentTop="true"
-            android:background="@color/LightBlue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                 android:id="@+id/profile_image"
+                 android:layout_width="50dp"
+                 android:layout_height="50dp"
+                 android:layout_marginStart="32dp"
+                 android:layout_marginLeft="32dp"
+                 android:layout_marginTop="8dp"
+                 android:src="@drawable/ic_launcher_round"
+                 android:layout_toRightOf="@+id/menu"
+                android:layout_toEndOf="@id/menu"
+                 app:layout_constraintTop_toTopOf="parent" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-             android:id="@+id/profile_image"
-             android:layout_width="50dp"
-             android:layout_height="50dp"
-             android:layout_marginStart="32dp"
-             android:layout_marginLeft="32dp"
-             android:layout_marginTop="8dp"
-             android:src="@drawable/ic_launcher_round"
-             app:layout_constraintStart_toEndOf="@+id/menu"
-             app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/toolbarUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/Default_Username_Text"
+                android:textColor="@color/White"
+                android:textSize="24sp"
+                android:layout_toRightOf="@+id/profile_image"
+                android:layout_toEndOf="@id/profile_image"
+                android:layout_alignParentTop="true" />
 
-        <TextView
-            android:id="@+id/toolbarUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/Default_Username_Text"
-            android:textColor="@color/White"
-            android:textSize="24sp"
-            app:layout_constraintStart_toEndOf="@+id/profile_image"
-            app:layout_constraintTop_toTopOf="parent" />
+                <EditText
+                    android:id="@+id/editTextMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="57dp"
+                    android:layout_alignParentBottom="true"
+                    android:ems="10"
+                    android:hint="@string/editTextMessage_Hint"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:scrollHorizontally="false" />
 
-        <ImageButton
-            android:id="@+id/menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|start"
-            android:layout_marginLeft="10dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_menu"
-            app:layout_constraintBottom_toBottomOf="@+id/chat_toolbar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
+                <ImageButton
+                    android:id="@+id/sendButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/list_of_messages"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/ic_send"
+                    android:enabled="false"
+                    android:text="@string/Send" />
             <ListView
                 android:id="@+id/list_of_messages"
                 android:layout_width="match_parent"
                 android:layout_height="590dp"
+                android:padding="5dp"
                 android:layout_above="@+id/editTextMessage"
                 android:layout_marginBottom="5dp"
                 android:divider="@android:color/transparent"
@@ -75,53 +82,49 @@
                 android:listSelector="@android:color/transparent"
                 android:stackFromBottom="true"
                 android:transcriptMode="alwaysScroll" />
-
-            <EditText
-                android:id="@+id/editTextMessage"
-                android:layout_width="match_parent"
-                android:layout_height="57dp"
-                android:layout_alignParentBottom="true"
-                android:ems="10"
-                android:hint="@string/editTextMessage_Hint"
-                android:importantForAutofill="no"
-                android:inputType="textMultiLine"
-                android:scrollHorizontally="false" />
-
             <ImageButton
-                android:id="@+id/sendButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/list_of_messages"
+                android:id="@+id/menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:padding="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_menu" />
+            <ImageButton
+                android:id="@+id/end_session_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/ic_send"
-                android:enabled="false"
-                android:text="@string/Send" />
-</RelativeLayout>
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-
-        android:layout_gravity="start">
-
+                android:visibility="invisible"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_stop_chat"
+                android:background="@color/red"
+                android:contentDescription="@string/end_session"
+                android:layout_marginTop="20dp"/>
+    </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="start"
+            android:background="@color/White">
             <include layout="@layout/nav_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <ListView
-                android:layout_width="280dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/list_of_conversations"
-                android:layout_gravity="start">
+                android:id="@+id/list_of_conversations">
 
             </ListView>
         </LinearLayout>
-    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>
 
 

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,17 +37,14 @@ public class BioTabFragment extends Fragment {
     private ImageButton changePhotoButton;
     private EditText contactInfoEditText;
     private EditText schoolOccupationEditText;
-    private ArrayList<String> listHeader;
-    private HashMap <String, ArrayList<String>> listData;
-    private ExpandableListAdapter expandableListAdapter;
     private EditText descriptionEditText;
     private ImageButton editButton;
     private View saveProfileChanges;
     private FirebaseUser firebaseUser;
     private DatabaseReference reference;
     private ExpandableListView areaOfExpertiseListView;
+    private TextView areaOfExpertiseText;
     private User user;
-    private int group;
     BioTabFragment()
     {
 
@@ -66,7 +64,7 @@ public class BioTabFragment extends Fragment {
         Button cancelButton = saveProfileChanges.findViewById(R.id.cancel_button);
         Button doneButton = saveProfileChanges.findViewById(R.id.done_button);
 
-        areaOfExpertiseListView = fragmentRootView.findViewById(R.id.area_of_expertise_text);
+        areaOfExpertiseListView = fragmentRootView.findViewById(R.id.area_of_expertise_list);
         LayoutInflater profileInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = profileInflater.inflate(R.layout.fragment_profile,null);
         //finds views for profile data including profile photo and text fields in the bio tab
@@ -74,6 +72,8 @@ public class BioTabFragment extends Fragment {
         contactInfoEditText = fragmentRootView.findViewById(R.id.contact_information_edit_text);
         schoolOccupationEditText = fragmentRootView.findViewById(R.id.school_occupation_edit_text);
         descriptionEditText = fragmentRootView.findViewById(R.id.description_edit_text);
+        areaOfExpertiseText = fragmentRootView.findViewById(R.id.area_of_expertise_text);
+        areaOfExpertiseText.setVisibility(View.INVISIBLE);
         editButton.setOnClickListener(editOnClickListener);
         cancelButton.setOnClickListener(cancelButtonOnClickListener);
         doneButton.setOnClickListener(doneButtonOnClickListener);
@@ -181,7 +181,10 @@ public class BioTabFragment extends Fragment {
     private ValueEventListener subjectsValueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            SetData(dataSnapshot);
+            if(((LoggedInActivity)getActivity()).isTutor) {
+                areaOfExpertiseText.setVisibility(View.VISIBLE);
+                SetData(dataSnapshot);
+            }
 
 
         }
@@ -194,11 +197,11 @@ public class BioTabFragment extends Fragment {
 
     private void SetData(DataSnapshot dataSnapshot)
     {
-        listHeader = new ArrayList<>();
-        listData = new HashMap<>();
+        ArrayList<String> listHeader = new ArrayList<>();
+        HashMap <String, ArrayList<String>> listData = new HashMap<>();
         final ArrayList<String> temp = new ArrayList<>();
 
-        group = 0;
+        int group = 0;
 
         for (DataSnapshot majorSubject: dataSnapshot.getChildren())
         {
@@ -213,7 +216,7 @@ public class BioTabFragment extends Fragment {
 
             group++;
         }
-        expandableListAdapter = new ExpandableListAdapter(getContext(),listHeader,listData);
+        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(getContext(),listHeader,listData);
         areaOfExpertiseListView.setAdapter(expandableListAdapter);
 
     }

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -40,6 +41,8 @@ public class LoggedInActivity extends AppCompatActivity {
     private ChatFragment chatFragment = new ChatFragment();
     private ProfileFragment profileFragment = new ProfileFragment();
     private TutorRatingsFragment tutorRatingsFragment = new TutorRatingsFragment();
+    private EditText questionData;
+    private EditText descriptionData;
     private Bundle userStatusBundle;
     public DataSnapshot myDataSnapshot;
     public static boolean isTutor;
@@ -60,6 +63,13 @@ public class LoggedInActivity extends AppCompatActivity {
         DatabaseReference subjectsReference = FirebaseDatabase.getInstance().getReference("Subjects");
         subjectsReference.addValueEventListener(subjectsValueEventListener);
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_nav);
+        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        if(inflater!=null) {
+            popupView = inflater.inflate(R.layout.ask_a_question_popup, null);
+        }
+
+        questionData = popupView.findViewById(R.id.question_editText);
+        descriptionData = popupView.findViewById(R.id.question_description_editText);
 
         bottomNavigation.getMenu().add(Menu.NONE,R.id.nav_ratings,0,R.string.Ratings).setIcon(R.drawable.ic_ratings_black_24dp);
         bottomNavigation.getMenu().add(Menu.NONE,R.id.nav_matching,1,R.string.Matching).setIcon(R.drawable.ic_match_black_24dp);
@@ -68,6 +78,8 @@ public class LoggedInActivity extends AppCompatActivity {
 
         FragmentManager fm = getSupportFragmentManager();
         final FragmentTransaction ft = fm.beginTransaction();
+        //starts the Matching or tutor ratings fragment as the initial fragment for the user to see depending on
+        //what type of user is logged in
         if(!isTutor) {
             bottomNavigation.getMenu().findItem(R.id.nav_ratings).setVisible(false);
             bottomNavigation.getMenu().findItem(R.id.nav_matching).setVisible(true);
@@ -87,7 +99,6 @@ public class LoggedInActivity extends AppCompatActivity {
 
         //stops keyboard from automatically popping up on the start of the activity
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        //starts the Matching fragment as the initial fragment for the user to see
 
 
 
@@ -127,10 +138,6 @@ public class LoggedInActivity extends AppCompatActivity {
     public void Popup(final DataSnapshot dataSnapshot)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        if(inflater!=null) {
-            popupView = inflater.inflate(R.layout.ask_a_question_popup, null);
-        }
         Button submit = popupView.findViewById(R.id.submit_button);
         submit.setOnClickListener(submitOnClickListener);
         //spinners to display the major and minor subjects for the question being asked
@@ -180,9 +187,12 @@ public class LoggedInActivity extends AppCompatActivity {
         minorSubjectSpinner.setAdapter(minorSubjectsAdapter);
         builder.setView(popupView);
         alert = builder.create();
+        if(popupView.getParent()!=null)
+        {
+            ((ViewGroup)popupView.getParent()).removeView(popupView);
+        }
         //show popup window
         alert.show();
-
 
     }
     private ValueEventListener subjectsValueEventListener = new ValueEventListener() {
@@ -204,8 +214,10 @@ public class LoggedInActivity extends AppCompatActivity {
     private View.OnClickListener submitOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            alert.dismiss();
-            SetMatchingData();
+            if(!questionData.getText().toString().equals("")&& !descriptionData.getText().toString().equals("")) {
+                alert.dismiss();
+                SetMatchingData();
+            }
         }
     };
     //sets the data that the matching fragment will use to find the correct tutors for the given question
@@ -216,8 +228,8 @@ public class LoggedInActivity extends AppCompatActivity {
         String question;
         String description;
 
-        EditText questionData = popupView.findViewById(R.id.question_editText);
-        EditText descriptionData = popupView.findViewById(R.id.question_description_editText);
+        questionData = popupView.findViewById(R.id.question_editText);
+        descriptionData = popupView.findViewById(R.id.question_description_editText);
 
         majorSubject = (String)majorSubjectSpinner.getSelectedItem();
         minorSubject = (String)minorSubjectSpinner.getSelectedItem();

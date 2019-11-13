@@ -28,17 +28,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Date;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatFragment extends Fragment {
     private DatabaseReference chatsReference;
-    private String chatRoomIDReference;
     private TextView toolbarUsername;
     private String currentUserType;
     private String otherUserType;
+    private String userID;
+    private String chatRoomIDReference;
     private CircleImageView profileImage;
     private EditText chatEditText;
-    private String userID;
+    private ImageButton sendButton;
+    private ImageButton endSessionButton;
     private FirebaseUser firebaseUser;
     private ListView listOfMessages;
     private ListView conversationList;
@@ -46,7 +51,7 @@ public class ChatFragment extends Fragment {
     @Override
         public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState ) {
             super.onCreate(savedInstanceState);
-        //verify the users status
+            //verify the users status
             if(((LoggedInActivity)getActivity()).isTutor)
             {
                 currentUserType = "Tutors";
@@ -68,7 +73,9 @@ public class ChatFragment extends Fragment {
             conversationList = fragmentRootView.findViewById(R.id.list_of_conversations);
             conversationList.setOnItemClickListener(chatRoomSelection);
             ImageButton conversationMenu = fragmentRootView.findViewById(R.id.menu);
-            ImageButton sendButton = fragmentRootView.findViewById(R.id.sendButton);
+            endSessionButton = fragmentRootView.findViewById(R.id.end_session_button);
+            sendButton = fragmentRootView.findViewById(R.id.sendButton);
+
 
             final DrawerLayout drawerLayout = fragmentRootView.findViewById(R.id.conversation_list_NavDrawer);
 
@@ -80,15 +87,26 @@ public class ChatFragment extends Fragment {
                 userID = bundle.getString("Tutor ID");
                 toolbarUsername.setText(bundle.getString("Tutor Username"));
                 String profileString = bundle.getString("Tutor Profile Photo");
+                String questionAsked = bundle.getString("Question");
                 if(profileString!=null) {
                     SetUserProfileImage(profileString, profileImage);
                 }
                 chatRoomIDReference = chatsReference.push().getKey();
                 //creates a new chat room with the tutor and current users information
                 if(chatRoomIDReference!=null) {
-                    chatsReference.child(chatRoomIDReference).setValue(new ChatRoom(chatRoomIDReference, userID, firebaseUser.getUid(), 0));
+                    chatsReference.child(chatRoomIDReference).setValue(new ChatRoom(chatRoomIDReference,
+                            userID, firebaseUser.getUid(), 0,questionAsked,true));
+                    endSessionButton.setVisibility(View.VISIBLE);
+                    DisplayChatMessages();
                 }
             }
+            else
+            {
+                toolbarUsername.setVisibility(View.INVISIBLE);
+                profileImage.setVisibility(View.INVISIBLE);
+            }
+
+
                 usersReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -102,25 +120,35 @@ public class ChatFragment extends Fragment {
                 });
 
                 conversationMenu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    drawerLayout.openDrawer(GravityCompat.START);
+                    @Override
+                    public void onClick(View v) {
+                        drawerLayout.openDrawer(GravityCompat.START);
 
-                }
-            });
+                    }
+                });
                 //on click send the users message
                 sendButton.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                if (!chatEditText.getText().toString().equals("")) {
-                    SendMessage();
-                }
-            }
-        });
+                    @Override
+                    public void onClick(View v) {
+                        if (!chatEditText.getText().toString().equals("")) {
+                            SendMessage();
+
+                        }
+                    }
+                });
+                endSessionButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        chatsReference.child(chatRoomIDReference).child("active").setValue(false);
+                        chatEditText.setEnabled(false);
+                        sendButton.setEnabled(false);
+                        endSessionButton.setVisibility(View.GONE);
+                    }
+                });
 
             return fragmentRootView;
-        }
+    }
         //displays the chat messages for the current chat room
     private void DisplayChatMessages() {
 
@@ -163,6 +191,8 @@ public class ChatFragment extends Fragment {
         chatsReference.child(chatRoomIDReference).child("Messages").push().setValue(
                             new Message(chatEditText.getText().toString(),firebaseUser.getUid(),userID));
         chatEditText.setText("");
+        //stores the chat room timestamp in reverse order so when queried, the result set will show in descending order
+        chatsReference.child(chatRoomIDReference).child("timeOfLastMessage").setValue(-1 * new Date().getTime());
 
     }
     private void SetConversationList(final DataSnapshot usersSnapshot) {
@@ -173,13 +203,16 @@ public class ChatFragment extends Fragment {
                 CircleImageView profileImage = v.findViewById(R.id.profile_image);
                 TextView username = v.findViewById(R.id.username);
                 TextView timeOfLastMessage = v.findViewById(R.id.time_of_last_message);
+                TextView questionText = v.findViewById(R.id.question);
+                questionText.setText(model.getQuestionAsked());
                 //if there are no messages leave this textView blank
                 if(model.getTimeOfLastMessage() == 0)
                 {
                     timeOfLastMessage.setText("");
                 }
                 else {
-                    timeOfLastMessage.setText(DateFormat.format("hh:mm - MM-dd-yyyy", model.getTimeOfLastMessage()));
+                                                                                //reverses the timestamp back to the correct date and time
+                    timeOfLastMessage.setText(DateFormat.format("MM-dd-yyyy", -1*model.getTimeOfLastMessage()));
                 }
                 //check all of the users of the opposite status(this will be the previous chats the user has participated in)
                 //chats always are from student to tutor or vice versa
@@ -214,7 +247,7 @@ public class ChatFragment extends Fragment {
         conversationList.setAdapter(adapter);
 
     }
-    //method to convert the profile string stored into firebase into a bitmap to be loaded into the circle imageView
+    //method to convert the profile string stored into Firebase into a bitmap to be loaded into the circle imageView
     private void SetUserProfileImage(String profileString,CircleImageView profileImage)
     {
         if (!profileString.equals("default")) {
@@ -255,6 +288,26 @@ public class ChatFragment extends Fragment {
                             tempUsername = view.findViewById(R.id.username);
                             profileImage.setImageDrawable(tempProfile.getDrawable());
                             toolbarUsername.setText(tempUsername.getText());
+                            //checks if the chat room is active or inactive
+                            if(!chatRoom.isActive())
+                            {
+                                //if it is not active then do not allow the user to send messages
+                                chatEditText.setEnabled(false);
+                                sendButton.setEnabled(false);
+                                endSessionButton.setVisibility(View.GONE);
+                            }
+                            else
+                            {
+                                chatEditText.setEnabled(true);
+                                sendButton.setEnabled(true);
+                                endSessionButton.setVisibility(View.VISIBLE);
+
+                            }
+                            if(profileImage.getVisibility()==View.INVISIBLE)
+                            {
+                                profileImage.setVisibility(View.VISIBLE);
+                                toolbarUsername.setVisibility(View.VISIBLE);
+                            }
 
                             DisplayChatMessages();
                         }

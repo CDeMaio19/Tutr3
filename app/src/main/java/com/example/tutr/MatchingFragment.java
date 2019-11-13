@@ -33,7 +33,6 @@ public class MatchingFragment extends Fragment {
     private String minorSubject;
     private String question;
     private String description;
-    private FirebaseListAdapter<User> adapter;
     private ListView tutorList;
 
     public MatchingFragment()
@@ -50,12 +49,20 @@ public class MatchingFragment extends Fragment {
         if(bundle != null) {
             majorSubject = bundle.getString("Major Subject");
             minorSubject = bundle.getString("Minor Subject");
-            question = bundle.getString("Questions");
+            question = bundle.getString("Question");
             description = bundle.getString("Description");
             DisplayTutors();
 
         }
+        TextView questionData = fragmentRootView.findViewById(R.id.question_data);
+        TextView majorSubjectData = fragmentRootView.findViewById(R.id.major_subject_data);
+        TextView minorSubjectData = fragmentRootView.findViewById(R.id.minor_subject_data);
+        TextView descriptionData = fragmentRootView.findViewById(R.id.description_data);
         ImageButton newQuestionButton = fragmentRootView.findViewById(R.id.new_question_button);
+        questionData.setText(question);
+        majorSubjectData.setText(majorSubject);
+        minorSubjectData.setText(minorSubject);
+        descriptionData.setText(description);
         newQuestionButton.setOnClickListener(newQuestionButtonOnClickListener);
         return fragmentRootView;
     }
@@ -74,7 +81,7 @@ public class MatchingFragment extends Fragment {
         //queries the firebase database on the tutors area of expertise which equals the most specific
         // subject the student asked about
         Query query = reference.orderByChild("subject").equalTo(majorSubject);
-        adapter = new FirebaseListAdapter<User>(getActivity(),
+        FirebaseListAdapter<User> adapter = new FirebaseListAdapter<User>(getActivity(),
                 User.class, R.layout.tutor_list_item, query) {
             @Override
             protected void populateView(View v, final User model, int position) {

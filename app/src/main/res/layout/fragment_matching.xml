@@ -12,6 +12,69 @@
         android:layout_margin="5dp"
         android:src="@drawable/ic_new_question"
         android:background="@android:color/transparent"/>
+    <TextView
+        android:id="@+id/question_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/questions"
+        android:layout_margin="2dp"/>
+    <TextView
+        android:id="@+id/major_subject_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/major_subject"
+        android:layout_below="@id/question_textView"
+        android:layout_margin="2dp"/>
+    <TextView
+        android:id="@+id/minor_subject_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/minor_subject"
+        android:layout_below="@id/major_subject_textView"
+        android:layout_margin="2dp"/>
+    <TextView
+        android:id="@+id/description_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/description"
+        android:layout_below="@id/minor_subject_textView"
+        android:layout_margin="2dp"/>
+    <TextView
+        android:id="@+id/question_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_toRightOf="@id/question_textView"
+        android:layout_toEndOf="@id/question_textView"
+        android:layout_margin="5dp"/>
+    <TextView
+        android:id="@+id/major_subject_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_toRightOf="@id/major_subject_textView"
+        android:layout_below="@id/question_textView"
+        android:layout_margin="2dp"/>
+    <TextView
+        android:id="@+id/minor_subject_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_toRightOf="@id/minor_subject_textView"
+        android:layout_below="@id/major_subject_textView"
+        android:layout_margin="2dp"/>
+
+    <TextView
+        android:id="@+id/description_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_below="@id/description_text_view"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="2dp" />
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
