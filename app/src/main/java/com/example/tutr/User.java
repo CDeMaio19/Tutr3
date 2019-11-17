@@ -7,7 +7,6 @@ public class User {
     private String subject;
     private String profilePhoto;
     private String username;
-    private String subject;
     private String areaOfExpertise;
     private String description;
     private String payment;
@@ -108,12 +107,6 @@ public class User {
         this.description = description;
     }
 
-    public String getSubject() {
-        return subject;
-    }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
 }
 

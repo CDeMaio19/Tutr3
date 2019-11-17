@@ -210,7 +210,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                 Sc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 ArrayAdapter<CharSequence> SS = ArrayAdapter.createFromResource(this, R.array.Social_Studies, android.R.layout.simple_spinner_item);
                 SS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                switch (SubjectText){
+                switch (SubjectText) {
                     case "English":
                         FOE.setAdapter(E);
                         //FOE.setOnItemSelectedListener(this);
@@ -238,6 +238,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                 ExpertText = adapterView.getSelectedItem().toString();
 
         }
+    }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
