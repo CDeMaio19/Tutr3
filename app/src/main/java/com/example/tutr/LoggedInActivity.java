@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -12,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,8 +23,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +39,7 @@ public class LoggedInActivity extends AppCompatActivity {
     private MatchingFragment matchingFragment = new MatchingFragment();
     private ChatFragment chatFragment = new ChatFragment();
     private ProfileFragment profileFragment = new ProfileFragment();
+    private TutorRatingsFragment tutorRatingsFragment = new TutorRatingsFragment();
     private Bundle userStatusBundle;
     public DataSnapshot myDataSnapshot;
     private boolean isTutor;
@@ -60,16 +59,37 @@ public class LoggedInActivity extends AppCompatActivity {
 
         DatabaseReference subjectsReference = FirebaseDatabase.getInstance().getReference("Subjects");
         subjectsReference.addValueEventListener(subjectsValueEventListener);
-
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_nav);
+
+        bottomNavigation.getMenu().add(Menu.NONE,R.id.nav_ratings,0,R.string.Ratings).setIcon(R.drawable.ic_ratings_black_24dp);
+        bottomNavigation.getMenu().add(Menu.NONE,R.id.nav_matching,1,R.string.Matching).setIcon(R.drawable.ic_match_black_24dp);
+        bottomNavigation.getMenu().add(Menu.NONE,R.id.nav_chat,2,R.string.chats).setIcon(R.drawable.ic_question_answer_black_24dp);
+        bottomNavigation.getMenu().add(Menu.NONE,R.id.nav_profile,3,R.string.profile).setIcon((R.drawable.ic_person_black_24dp));
+
+        FragmentManager fm = getSupportFragmentManager();
+        final FragmentTransaction ft = fm.beginTransaction();
+        if(!isTutor) {
+            bottomNavigation.getMenu().findItem(R.id.nav_ratings).setVisible(false);
+            bottomNavigation.getMenu().findItem(R.id.nav_matching).setVisible(true);
+            ft.add(R.id.fragment_ui_container, new MatchingFragment());
+            ft.addToBackStack("Matching Fragment");
+            ft.commit();
+        }
+        else
+        {
+            bottomNavigation.getMenu().findItem(R.id.nav_ratings).setVisible(true);
+            bottomNavigation.getMenu().findItem(R.id.nav_matching).setVisible(false);
+            ft.add(R.id.fragment_ui_container, new TutorRatingsFragment());
+            ft.addToBackStack("Tutor Ratings Fragment Fragment");
+            ft.commit();
+        }
+
+
         //stops keyboard from automatically popping up on the start of the activity
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         //starts the Matching fragment as the initial fragment for the user to see
-        FragmentManager fm = getSupportFragmentManager();
-        final FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.fragment_ui_container, new MatchingFragment());
-        ft.addToBackStack("Matching Fragment");
-        ft.commit();
+
+
 
         Toolbar toolbar = findViewById(R.id.chat_toolbar);
         setSupportActionBar(toolbar);
@@ -79,17 +99,21 @@ public class LoggedInActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                switch (menuItem.getItemId()) {
-                    case R.id.nav_matching:
-                        fragmentTransaction.replace(R.id.fragment_ui_container, matchingFragment);
-                        break;
-                    case R.id.nav_chat:
-                        fragmentTransaction.replace(R.id.fragment_ui_container, chatFragment);
-                        break;
-                    case R.id.nav_profile:
-                        profileFragment.setArguments(userStatusBundle);
-                        fragmentTransaction.replace(R.id.fragment_ui_container, profileFragment);
-                }
+                    switch (menuItem.getItemId()) {
+                        case R.id.nav_matching:
+                            fragmentTransaction.replace(R.id.fragment_ui_container, matchingFragment);
+                            break;
+                        case R.id.nav_ratings:
+                            fragmentTransaction.replace(R.id.fragment_ui_container, tutorRatingsFragment);
+                            break;
+                        case R.id.nav_chat:
+                            fragmentTransaction.replace(R.id.fragment_ui_container, chatFragment);
+                            break;
+                        case R.id.nav_profile:
+                            profileFragment.setArguments(userStatusBundle);
+                            fragmentTransaction.replace(R.id.fragment_ui_container, profileFragment);
+                    }
+
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
@@ -200,11 +224,6 @@ public class LoggedInActivity extends AppCompatActivity {
 
         question = questionData.getText().toString();
         description = descriptionData.getText().toString();
-
-        //adds the question to the firebase database
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference questionsReference = FirebaseDatabase.getInstance().getReference("Questions").child(firebaseUser.getUid());
-        questionsReference.push().setValue(new Question(question,majorSubject,minorSubject,description));
 
         Bundle bundle = new Bundle();
         //data the matching fragment will receive

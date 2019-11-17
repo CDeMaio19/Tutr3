@@ -13,6 +13,7 @@
     <string name="Register"><u>Register now!!</u></string>
     <string name="Cancel">Cancel</string>
     <string name="Done">Done</string>
+    <string name="Ratings">Ratings</string>
     <string name="Matching">Matching</string>
     <string name="Edit_Profile">Edit Profile</string>
     <string name="Chat_TextView_Hint">Messages appear here</string>
@@ -35,6 +36,7 @@
     <string name="Schedule">Schedule</string>
     <string name="ask_a_question">Ask a Question</string>
     <string name="popup_greeting">Need Help?\n Ask a question and we\'ll provide you with a list of certified professionals!</string>
+    <string name="list_of_tutors">List of Certified Tutors</string>
     <string name= "Bio">Bio</string>
     <string name="Send">Send</string>
     <string name="FName">First Name</string>

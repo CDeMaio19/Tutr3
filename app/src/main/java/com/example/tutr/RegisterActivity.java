@@ -42,7 +42,9 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     private EditText UPassword;
     private Spinner FOE;
     private Spinner Sub;
-    private String SubjectText;
+    private String SubjectText = "English";
+    private String ExpertText;
+    
 
     private RadioButton ST;
     private RadioButton TU;
@@ -159,7 +161,12 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                 userHash.put("username", FN.getText().toString() + "_" + LN.getText().toString());
                                 userHash.put("school", SO.getText().toString());
                                 userHash.put("email", UEmail.getText().toString());
-                                userHash.put("profilePhotoURL", "default");
+                                userHash.put("profilePhoto", "default");
+                                if (TU.isChecked()) {
+                                    userHash.put("subject", SubjectText);
+                                    userHash.put("areaOfExpertise",ExpertText);
+                                }
+
                                 userHash.put("description", "");
 
 
@@ -191,53 +198,45 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()) {
-                case R.id.Subject:
+            case R.id.Subject:
+                SubjectText = adapterView.getSelectedItem().toString();
+                ArrayAdapter<CharSequence> E = ArrayAdapter.createFromResource(this, R.array.English, android.R.layout.simple_spinner_item);
+                E.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<CharSequence> F = ArrayAdapter.createFromResource(this, R.array.Foreign_Language, android.R.layout.simple_spinner_item);
+                F.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<CharSequence> M = ArrayAdapter.createFromResource(this, R.array.Math, android.R.layout.simple_spinner_item);
+                M.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<CharSequence> Sc = ArrayAdapter.createFromResource(this, R.array.Science, android.R.layout.simple_spinner_item);
+                Sc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<CharSequence> SS = ArrayAdapter.createFromResource(this, R.array.Social_Studies, android.R.layout.simple_spinner_item);
+                SS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                switch (SubjectText){
+                    case "English":
+                        FOE.setAdapter(E);
+                        //FOE.setOnItemSelectedListener(this);
+                        break;
+                    case "Foreign Language":
+                        FOE.setAdapter(F);
+                        //FOE.setOnItemSelectedListener(this);
+                        break;
+                    case "Math":
+                        FOE.setAdapter(M);
+                        // FOE.setOnItemSelectedListener(this);
+                        break;
+                    case "Science":
+                        FOE.setAdapter(Sc);
+                        //FOE.setOnItemSelectedListener(this);
+                        break;
+                    case "Social Studies":
+                        FOE.setAdapter(SS);
+                        //FOE.setOnItemSelectedListener(this);
+                        break;
+                    default:
+                        break;
+                }
+            case R.id.FOE:
+                ExpertText = adapterView.getSelectedItem().toString();
 
-                    SubjectText = adapterView.getSelectedItem().toString();
-                    ArrayAdapter<CharSequence> E = ArrayAdapter.createFromResource(this, R.array.English, android.R.layout.simple_spinner_item);
-                    E.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    ArrayAdapter<CharSequence> F = ArrayAdapter.createFromResource(this, R.array.Foreign_Language, android.R.layout.simple_spinner_item);
-                    F.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    ArrayAdapter<CharSequence> M = ArrayAdapter.createFromResource(this, R.array.Math, android.R.layout.simple_spinner_item);
-                    M.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    ArrayAdapter<CharSequence> Sc = ArrayAdapter.createFromResource(this, R.array.Science, android.R.layout.simple_spinner_item);
-                    Sc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    ArrayAdapter<CharSequence> SS = ArrayAdapter.createFromResource(this, R.array.Social_Studies, android.R.layout.simple_spinner_item);
-                    SS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    ArrayAdapter<CharSequence> Subsc = ArrayAdapter.createFromResource(this, R.array.Subscription, android.R.layout.simple_spinner_item);
-                    Subsc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    ArrayAdapter<CharSequence> Pay = ArrayAdapter.createFromResource(this, R.array.Payment, android.R.layout.simple_spinner_item);
-                    Pay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-
-                    switch (SubjectText) {
-                        case "English":
-                            FOE.setAdapter(E);
-                            //FOE.setOnItemSelectedListener(this);
-                            break;
-                        case "Foreign Language":
-                            FOE.setAdapter(F);
-                            //FOE.setOnItemSelectedListener(this);
-                            break;
-                        case "Math":
-                            FOE.setAdapter(M);
-                            // FOE.setOnItemSelectedListener(this);
-                            break;
-                        case "Science":
-                            FOE.setAdapter(Sc);
-                            //FOE.setOnItemSelectedListener(this);
-                            break;
-                        case "Social Studies":
-                            FOE.setAdapter(SS);
-                            //FOE.setOnItemSelectedListener(this);
-                            break;
-                        default:
-                            break;
-                    }
-                case R.id.FOE:
-                    String ExpertText = adapterView.getSelectedItem().toString();
-                    break;
-            }
         }
 
     @Override

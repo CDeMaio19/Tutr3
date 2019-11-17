@@ -6,42 +6,47 @@ import java.util.Date;
 
 public class Message {
     private String text;
-    private String currentUser;
+    private String sender;
+    private String receiver;
     private long timeSent;
 
-    Message(String text, String currentUser)
-    {
-        this.text = text;
-        this.currentUser= currentUser;
-        this.timeSent = new Date().getTime();
-
-    }
-    Message(Message message)
-    {
-        this.text = message.getText();
-        this.currentUser = message.getCurrentUser();
-        this.timeSent = getTimeSent();
-    }
     Message()
     {
 
+    }
+
+    public Message(String text, String sender, String receiver) {
+        this.text = text;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.timeSent = new Date().getTime();
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 
     public String getText()
     {
         return text;
     }
-
-    public String getCurrentUser()
-    {
-        return currentUser;
-    }
     public long getTimeSent()
     {
         return timeSent;
     }
     public void setText(String text){this.text = text;}
-    public void setCurrentUser(String currentUser){this.currentUser = currentUser;}
     public void setTimeSent(long timeSent){this.timeSent = timeSent;}
 
 

@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/question"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:text="@string/major_subject"
         android:layout_marginLeft="5dp"/>
     <TextView
@@ -27,7 +27,7 @@
         android:layout_toRightOf="@+id/major_subject"
         android:layout_below="@+id/question"
         android:layout_marginLeft="10dp"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:text="@string/minor_subject"/>
     <TextView
         android:id="@+id/time_asked"
@@ -35,10 +35,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/question"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:textSize="20sp"
+        android:textSize="12sp"
         android:text="Time"/>
 
 </RelativeLayout>

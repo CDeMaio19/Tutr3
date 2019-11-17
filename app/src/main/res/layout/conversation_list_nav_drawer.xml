@@ -1,7 +1,6 @@
 <com.google.android.material.navigation.NavigationView
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/conversation_list_NavDrawer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_gravity="start">
@@ -15,14 +14,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:id="@+id/chatRoomNavigation"
+            android:id="@+id/list_of_conversations"
             android:layout_weight="8"
             android:layout_gravity="bottom"
             >
 
-        </ListView>
+        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 </com.google.android.material.navigation.NavigationView>
