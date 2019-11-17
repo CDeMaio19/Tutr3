@@ -7,8 +7,12 @@ public class User {
     private String subject;
     private String profilePhoto;
     private String username;
+    private String subject;
     private String areaOfExpertise;
     private String description;
+    private String payment;
+    private String paymentMeathod;
+
 
 
 
@@ -21,11 +25,34 @@ public class User {
         this.areaOfExpertise = areaOfExpertise;
         this.description = description;
         this.subject = subject;
+        this.payment = payment;
+        this.paymentMeathod = paymentMeathod;
     }
 
     public User() {
     }
+    public String getPayment() {
+        return payment;
+    }
 
+    public void setPayment(String payment) {
+        this.payment = payment;
+    }
+
+    public String getPaymentMeathod() {
+        return paymentMeathod;
+    }
+
+    public void setPaymentMeathod(String paymentMeathod) {
+        this.paymentMeathod = paymentMeathod;
+    }
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
     public String getEmail() {
         return email;
     }
