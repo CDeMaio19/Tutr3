@@ -113,4 +113,15 @@
         <item>Russian</item>
         <item>Other</item>
     </string-array>
+
+    <string-array name="Subscription">
+        <item>1 Month $9.99</item>
+        <item>3 Months $20.99</item>
+        <item>6 Months $35.99</item>
+    </string-array>
+
+    <string-array name="Payment">
+        <item>Credit Card</item>
+        <item>Paypal</item>
+    </string-array>
 </resources>
