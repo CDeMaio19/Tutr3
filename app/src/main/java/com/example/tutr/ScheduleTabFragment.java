@@ -87,7 +87,7 @@ public class ScheduleTabFragment extends Fragment {
         reference = FirebaseDatabase.getInstance().getReference("Users");
 
 
-
+        Update();
 
         MonAv = fragmentRootView.findViewById(R.id.MonAv);
         TueAv = fragmentRootView.findViewById(R.id.TueAv);
@@ -256,12 +256,14 @@ public class ScheduleTabFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 MonAv.append(SetAvalibility(Mon1, Mon2));
+                InsertData(getView(), MonAv);
             }
         });
         ClearMon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Clear(MonAv);
+                InsertData(getView(), MonAv);
             }
         });
 
@@ -269,12 +271,14 @@ public class ScheduleTabFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 TueAv.append(SetAvalibility(Tue1, Tue2));
+                InsertData(getView(), TueAv);
             }
         });
         ClearTue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Clear(TueAv);
+                InsertData(getView(), TueAv);
             }
         });
 
@@ -282,12 +286,14 @@ public class ScheduleTabFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 WedAv.append(SetAvalibility(Wed1, Wed2));
+                InsertData(getView(), WedAv);
             }
         });
         ClearWed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Clear(WedAv);
+                InsertData(getView(), WedAv);
             }
         });
 
@@ -295,12 +301,14 @@ public class ScheduleTabFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ThuAv.append(SetAvalibility(Thu1, Thu2));
+                InsertData(getView(), ThuAv);
             }
         });
         ClearThu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Clear(ThuAv);
+                InsertData(getView(), ThuAv);
             }
         });
 
@@ -308,12 +316,14 @@ public class ScheduleTabFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FriAv.append(SetAvalibility(Fri1, Fri2));
+                InsertData(getView(), FriAv);
             }
         });
         ClearFri.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Clear(FriAv);
+                InsertData(getView(), FriAv);
             }
         });
 
@@ -321,12 +331,14 @@ public class ScheduleTabFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SatAv.append(SetAvalibility(Sat1, Sat2));
+                InsertData(getView(), SatAv);
             }
         });
         ClearSat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Clear(SatAv);
+                InsertData(getView(), SatAv);
             }
         });
 
@@ -334,12 +346,14 @@ public class ScheduleTabFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SunAv.append(SetAvalibility(Sun1, Sun2));
+                InsertData(getView(), SunAv);
             }
         });
         ClearSun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Clear(SunAv);
+                InsertData(getView(), SunAv);
             }
         });
 
@@ -355,6 +369,42 @@ public class ScheduleTabFragment extends Fragment {
 
         return  fragmentRootView;
 
+
+    }
+
+    public void Update()
+    {
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child("Tutors").child(firebaseUser.getUid()).child("MondayAvailability").getValue() != null){
+                    MonAv.setText(dataSnapshot.child("Tutors").child(firebaseUser.getUid()).child("MondayAvailability").getValue().toString());
+                }
+                if (dataSnapshot.child("Tutors").child(firebaseUser.getUid()).child("TuesdayAvailability").getValue() != null) {
+                    TueAv.setText(dataSnapshot.child("Tutors").child(firebaseUser.getUid()).child("TuesdayAvailability").getValue().toString());
+                }
+                if (dataSnapshot.child("Tutors").child(firebaseUser.getUid()).child("WednesdayAvailability").getValue() != null) {
+                    WedAv.setText(dataSnapshot.child("Tutors").child(firebaseUser.getUid()).child("WednesdayAvailability").getValue().toString());
+                }
+                if (dataSnapshot.child("Tutors").child(firebaseUser.getUid()).child("ThursdayAvailability").getValue() != null) {
+                    ThuAv.setText(dataSnapshot.child("Tutors").child(firebaseUser.getUid()).child("ThursdayAvailability").getValue().toString());
+                }
+                if (dataSnapshot.child("Tutors").child(firebaseUser.getUid()).child("FridayAvailability").getValue() != null) {
+                    FriAv.setText(dataSnapshot.child("Tutors").child(firebaseUser.getUid()).child("FridayAvailability").getValue().toString());
+                }
+                if (dataSnapshot.child("Tutors").child(firebaseUser.getUid()).child("SaturdayAvailability").getValue() != null) {
+                    SatAv.setText(dataSnapshot.child("Tutors").child(firebaseUser.getUid()).child("SaturdayAvailability").getValue().toString());
+                }
+                if (dataSnapshot.child("Tutors").child(firebaseUser.getUid()).child("SundayAvailability").getValue() != null) {
+                    SunAv.setText(dataSnapshot.child("Tutors").child(firebaseUser.getUid()).child("SundayAvailability").getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -380,23 +430,32 @@ public class ScheduleTabFragment extends Fragment {
                 reference = FirebaseDatabase.getInstance().getReference("Users").child("Tutors").child(firebaseUser.getUid());
                 if (Av == MonAv)
                 {
-                    user.setMondayAvalibility(MonAv.getText().toString());
+                    reference.child("MondayAvailability").setValue(MonAv.getText().toString());
                 }
                 if (Av == TueAv)
                 {
-                    user.setTuedayAvalibility(TueAv.getText().toString());
+                    reference.child("TuesdayAvailability").setValue(TueAv.getText().toString());
+
                 }
                 if (Av == WedAv)
                 {
-                    user.setWednesdayAvalibility(WedAv.getText().toString());
+                    reference.child("WednesdayAvailability").setValue(WedAv.getText().toString());
                 }
                 if (Av == ThuAv)
                 {
-                    user.setThursdayAvalibility(ThuAv.getText().toString());
+                    reference.child("ThursdayAvailability").setValue(ThuAv.getText().toString());
                 }
                 if (Av == FriAv)
                 {
-                    user.setFridayAvalibility(FriAv.getText().toString());
+                    reference.child("FridayAvailability").setValue(FriAv.getText().toString());
+                }
+                if (Av == SatAv)
+                {
+                    reference.child("SaturdayAvailability").setValue(SatAv.getText().toString());
+                }
+                if (Av == SunAv)
+                {
+                    reference.child("SundayAvailability").setValue(SunAv.getText().toString());
                 }
             }
 
