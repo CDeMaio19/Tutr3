@@ -26,6 +26,7 @@
     <string name="Default_Username_Text">Username</string>
     <string name="menu_item_settings">Settings</string>
     <string name="end_session">End Session</string>
+    <string name="end_session_popup_title">Are you sure you would like to end this tutoring session?</string>
     <string name="menu_item_logout">Log Out</string>
     <string name="chats">Chats</string>
     <string name="questions">Question</string>

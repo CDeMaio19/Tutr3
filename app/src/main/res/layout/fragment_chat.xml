@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".LoggedInActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,33 +49,34 @@
                 android:layout_toEndOf="@id/profile_image"
                 android:layout_alignParentTop="true" />
 
-                <EditText
-                    android:id="@+id/editTextMessage"
-                    android:layout_width="match_parent"
-                    android:layout_height="57dp"
-                    android:layout_alignParentBottom="true"
-                    android:ems="10"
-                    android:hint="@string/editTextMessage_Hint"
-                    android:importantForAutofill="no"
-                    android:inputType="textMultiLine"
-                    android:scrollHorizontally="false" />
 
-                <ImageButton
-                    android:id="@+id/sendButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_below="@id/list_of_messages"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-                    android:background="@drawable/ic_send"
-                    android:enabled="false"
-                    android:text="@string/Send" />
+            <EditText
+                android:id="@+id/editTextMessage"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_alignParentBottom="true"
+                android:ems="10"
+                android:hint="@string/editTextMessage_Hint"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:scrollHorizontally="false" />
+
+
+            <ImageButton
+                android:id="@+id/sendButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/list_of_messages"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/ic_send"
+                android:enabled="false"
+                android:text="@string/Send" />
             <ListView
                 android:id="@+id/list_of_messages"
                 android:layout_width="match_parent"
                 android:layout_height="590dp"
-                android:padding="5dp"
                 android:layout_above="@+id/editTextMessage"
                 android:layout_marginBottom="5dp"
                 android:divider="@android:color/transparent"
@@ -100,14 +102,18 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:visibility="invisible"
                 android:layout_marginRight="10dp"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/ic_stop_chat"
                 android:background="@color/red"
                 android:contentDescription="@string/end_session"
                 android:layout_marginTop="20dp"/>
+
     </RelativeLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -125,6 +131,7 @@
 
             </ListView>
         </LinearLayout>
+    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>
 
 
