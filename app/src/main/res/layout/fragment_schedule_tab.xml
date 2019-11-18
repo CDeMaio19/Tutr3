@@ -15,7 +15,8 @@
             android:layout_weight="1"
             android:text="Clear"
             android:textAlignment="2"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:visibility="invisible"/>
 
         <Button
             android:id="@+id/addButton2"
@@ -61,20 +62,26 @@
                 android:id="@+id/Mon1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone" />
+                />
 
             <Spinner
                 android:id="@+id/Mon2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone" />
+                />
 
             <Button
                 android:id="@+id/SubMon"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="@string/Submit"
-                android:visibility="gone" />
+                />
+
+            <Button
+                android:id="@+id/ClearMon"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Clear" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -104,6 +111,12 @@
                 android:layout_height="40dp"
                 android:text="@string/Submit" />
 
+            <Button
+                android:id="@+id/ClearTue"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Clear" />
+
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
@@ -131,6 +144,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="@string/Submit" />
+
+            <Button
+                android:id="@+id/ClearWed"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Clear" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -160,6 +179,12 @@
                 android:layout_height="40dp"
                 android:text="@string/Submit" />
 
+            <Button
+                android:id="@+id/ClearThu"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Clear" />
+
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="match_parent"
@@ -187,6 +212,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="@string/Submit" />
+
+            <Button
+                android:id="@+id/ClearFri"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Clear" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -216,6 +247,12 @@
                 android:layout_height="40dp"
                 android:text="@string/Submit" />
 
+            <Button
+                android:id="@+id/ClearSat"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Clear" />
+
             <TextView
                 android:id="@+id/textView13"
                 android:layout_width="match_parent"
@@ -243,6 +280,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="@string/Submit" />
+
+            <Button
+                android:id="@+id/ClearSun"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Clear" />
 
             <TextView
                 android:id="@+id/textView15"
