@@ -23,8 +23,8 @@ public class User {
 
 
     public User(String email, String school, String id, String profilePhoto, String username,
-                String areaOfExpertise, String description, String subject, String MondayAvalibility,
-                String TuesdayAvalibility, String WednesdayAvalibility, String ThursdayAvalibility,
+                String areaOfExpertise, String description, String subject, String payment, String paymentMeathod,
+                String MondayAvalibility, String TuesdayAvalibility, String WednesdayAvalibility, String ThursdayAvalibility,
                 String FridayAvalibility, String SatdayAvalibility, String SundayAvalibility) {
         this.email = email;
         this.school = school;
@@ -43,6 +43,7 @@ public class User {
         this.FridayAvalibility = FridayAvalibility;
         this.SaturdayAvalibility = SatdayAvalibility;
         this.SundayAvalibility = SundayAvalibility;
+
     }
 
     public User() {

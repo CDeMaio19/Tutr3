@@ -45,7 +45,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     private String SubjectText = "English";
     private String ExpertText;
 
-
     private RadioButton ST;
     private RadioButton TU;
 
