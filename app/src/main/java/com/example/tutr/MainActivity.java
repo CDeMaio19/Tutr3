@@ -55,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                SignIn();
+
+
+                    SignIn();
 
             }
         });
@@ -99,32 +101,37 @@ public class MainActivity extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         Toast.makeText(MainActivity.this, "Invalid Email & Password", Toast.LENGTH_LONG).show();
                     }
-                    else
-                    {
-                        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    else {
+                            final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                        if (firebaseUser != null) {
-                            userStatusReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    //checks whether the logged in user is a tutor or not
-                                    isTutor = dataSnapshot.hasChild(firebaseUser.getUid());
-                                    Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
-                                    intent.putExtra("User Status",isTutor);
-                                    //Change Activity
+                            if (firebaseUser != null) {
+                                if(UEmail.getText().toString().equals("admin@admin.com") && UPassword.getText().toString().equals("adminPassword"))
+                                {
+                                    Intent intent = new Intent(MainActivity.this,AdminActivity.class);
                                     startActivity(intent);
+                                }
+                                else {
+                                    userStatusReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            //checks whether the logged in user is a tutor or not
+                                            isTutor = dataSnapshot.hasChild(firebaseUser.getUid());
+                                            Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
+                                            intent.putExtra("User Status", isTutor);
+                                            //Change Activity
+                                            startActivity(intent);
 
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
                                 }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                }
-                            });
-
-
-                        }
-
+                            }
                     }
 
                 }

@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -218,6 +219,7 @@ public class LoggedInActivity extends AppCompatActivity {
                 alert.dismiss();
                 SetMatchingData();
             }
+
         }
     };
     //sets the data that the matching fragment will use to find the correct tutors for the given question

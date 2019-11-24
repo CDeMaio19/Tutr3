@@ -27,6 +27,7 @@
     <string name="menu_item_settings">Settings</string>
     <string name="end_session">End Session</string>
     <string name="end_session_popup_title">Are you sure you would like to end this tutoring session?</string>
+    <string name="survey_title">Please provide feedback on your session so we can improve your experience!</string>
     <string name="menu_item_logout">Log Out</string>
     <string name="chats">Chats</string>
     <string name="questions">Question</string>
@@ -58,6 +59,21 @@
     <string name="Saturday">Saturday</string>
     <string name="Sunday">Sunday</string>
     <string name="Availability">Availability:  </string>
+    <string name="Disagree">Disagree</string>
+    <string name="Slightly_Agree">Slightly Agree</string>
+    <string name="Agree">Agree</string>
+    <string name="Strongly_Agree">Strongly Agree</string>
+    <string name="survey_on_topic">My tutor stayed on topic</string>
+    <string name="survey_answered_material">My tutor was able to properly answer my question</string>
+    <string name="survey_friendly">My tutor was friendly</string>
+    <string name="survey_overall">I had a great experience overall</string>
+    <string name="comments">Comments</string>
+    <string name="focused">Focused</string>
+    <string name="accurate">Accurate</string>
+    <string name="friendly">Friendly</string>
+    <string name="completed_surveys">Completed Surveys</string>
+    <string name="waiting_for_tutor_response">Waiting for the tutor\'s response</string>
+
 
     <string-array name="Time">
         <item>Anytime</item>

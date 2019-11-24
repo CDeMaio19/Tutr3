@@ -78,7 +78,7 @@ public class MatchingFragment extends Fragment {
 
     private void DisplayTutors() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child("Tutors");
-        //queries the firebase database on the tutors area of expertise which equals the most specific
+        //queries the FireBase database on the tutors area of expertise which equals the most specific
         // subject the student asked about
         Query query = reference.orderByChild("subject").equalTo(majorSubject);
         FirebaseListAdapter<User> adapter = new FirebaseListAdapter<User>(getActivity(),
@@ -108,7 +108,7 @@ public class MatchingFragment extends Fragment {
                 matchButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //adds the question to the Firebase database
+                        //adds the question to the FireBase database
                         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                         DatabaseReference questionsReference = FirebaseDatabase.getInstance().getReference("Questions").child(firebaseUser.getUid());
                         questionsReference.push().setValue(new Question(question,majorSubject,minorSubject,description));

@@ -16,7 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -42,7 +45,7 @@ public class ChatFragment extends Fragment {
     private TextView toolbarUsername;
     private String currentUserType;
     private String otherUserType;
-    private String userID;
+    private String tutorID;
     private String chatRoomIDReference;
     private CircleImageView profileImage;
     private EditText chatEditText;
@@ -91,7 +94,7 @@ public class ChatFragment extends Fragment {
             //get the tutors information from the match
             if(bundle!=null)
             {
-                userID = bundle.getString("Tutor ID");
+                tutorID = bundle.getString("Tutor ID");
                 toolbarUsername.setText(bundle.getString("Tutor Username"));
                 String profileString = bundle.getString("Tutor Profile Photo");
                 String questionAsked = bundle.getString("Question");
@@ -103,7 +106,7 @@ public class ChatFragment extends Fragment {
                 //creates a new chat room with the tutor and current users information
                 if(chatRoomIDReference!=null) {
                     chatsReference.child(chatRoomIDReference).setValue(new ChatRoom(chatRoomIDReference,
-                            userID, firebaseUser.getUid(), 0,questionAsked,true));
+                            tutorID, firebaseUser.getUid(), 0,questionAsked,true));
                     endSessionButton.setVisibility(View.VISIBLE);
                     DisplayChatMessages();
                 }
@@ -112,6 +115,7 @@ public class ChatFragment extends Fragment {
             {
                 toolbarUsername.setVisibility(View.INVISIBLE);
                 profileImage.setVisibility(View.INVISIBLE);
+                endSessionButton.setVisibility(View.INVISIBLE);
             }
 
 
@@ -194,7 +198,7 @@ public class ChatFragment extends Fragment {
     private void SendMessage()
     {
         chatsReference.child(chatRoomIDReference).child("Messages").push().setValue(
-                            new Message(chatEditText.getText().toString(),firebaseUser.getUid(),userID));
+                            new Message(chatEditText.getText().toString(),firebaseUser.getUid()));
         chatEditText.setText("");
         //stores the chat room timestamp in reverse order so when queried, the result set will show in descending order
         chatsReference.child(chatRoomIDReference).child("timeOfLastMessage").setValue(-1 * new Date().getTime());
@@ -287,6 +291,7 @@ public class ChatFragment extends Fragment {
                         if(chatRoom.getId().equals(snapshot.child("id").getValue())) {
                             //sets the charRoomIDReferences so messages can be displayed and sent in this chat room specifically
                             chatRoomIDReference = snapshot.child("id").getValue(String.class);
+                            tutorID = snapshot.child("tutorID").getValue(String.class);
                             CircleImageView tempProfile;
                             TextView tempUsername;
                             tempProfile = view.findViewById(R.id.profile_image);
@@ -316,10 +321,8 @@ public class ChatFragment extends Fragment {
 
                             DisplayChatMessages();
                         }
-
                     }
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -351,11 +354,15 @@ public class ChatFragment extends Fragment {
         endTutorSessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                endSessionButton.setVisibility(View.INVISIBLE);
                 chatsReference.child(chatRoomIDReference).child("active").setValue(false);
                 chatEditText.setEnabled(false);
                 sendButton.setEnabled(false);
-                endSessionButton.setVisibility(View.INVISIBLE);
                 alert.dismiss();
+                if(currentUserType.equals("Students"))
+                {
+                    DisplaySurveyAlert();
+                }
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -364,6 +371,57 @@ public class ChatFragment extends Fragment {
                 alert.dismiss();
             }
         });
+    }
+    private void DisplaySurveyAlert()
+    {
+        LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View surveyPopup = inflater.inflate(R.layout.popup_tutor_survey,null);
+        Button surveySubmit = surveyPopup.findViewById(R.id.submit_button);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        final AlertDialog alert;
+        builder.setView(surveyPopup);
+        alert = builder.create();
+        alert.show();
+
+
+        surveySubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference surveyReference = FirebaseDatabase.getInstance().getReference("Surveys").child(tutorID);
+                RadioGroup focusedGroup = surveyPopup.findViewById(R.id.focused_group);
+                RadioGroup accurateGroup = surveyPopup.findViewById(R.id.accurate_group);
+                RadioGroup friendlyGroup = surveyPopup.findViewById(R.id.friendly_group);
+                EditText comments = surveyPopup.findViewById(R.id.comments_edit_text);
+                int focusedID = focusedGroup.getCheckedRadioButtonId();
+                int accurateID = accurateGroup.getCheckedRadioButtonId();
+                int friendlyID = friendlyGroup.getCheckedRadioButtonId();
+                RadioButton focusedButtonSelected = surveyPopup.findViewById(focusedID);
+                RadioButton accurateButtonSelected = surveyPopup.findViewById(accurateID);
+                RadioButton friendlyButtonSelected = surveyPopup.findViewById(friendlyID);
+                //checks if any of the radio buttons have not been selected
+                if(focusedGroup.getCheckedRadioButtonId() == -1 || accurateGroup.getCheckedRadioButtonId() == -1 ||
+                                                                        friendlyGroup.getCheckedRadioButtonId() == -1)
+                {
+                    Toast.makeText(getActivity(),"Please select one button in each category",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    //gets the position of the button selected and adds one to get the actual value of the button selected because the position starts from zero
+                    String surveyID = surveyReference.push().getKey();
+                    if(surveyID!=null) {
+                        surveyReference.child(surveyID).child("respondent").setValue(firebaseUser.getUid());
+                        surveyReference.child(surveyID).child("focusedRating").setValue(focusedGroup.indexOfChild(focusedButtonSelected) + 1);
+                        surveyReference.child(surveyID).child("accurateRating").setValue(accurateGroup.indexOfChild(accurateButtonSelected) + 1);
+                        surveyReference.child(surveyID).child("friendlyRating").setValue(friendlyGroup.indexOfChild(friendlyButtonSelected) + 1);
+                        surveyReference.child(surveyID).child("comment").setValue(comments.getText().toString());
+                    }
+                    alert.dismiss();
+                }
+
+            }
+        });
+
+
     }
 
 
