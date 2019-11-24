@@ -6,17 +6,30 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="99dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Schedule"
+        <Button
+            android:id="@+id/addButton3"
+            android:layout_width="232dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Clear"
+            android:textAlignment="2"
+            android:textSize="30sp"
+            android:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/addButton2"
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="-"
+            android:textAlignment="1"
             android:textSize="50sp" />
 
-        <TextView
+        <Button
             android:id="@+id/addButton"
-            android:layout_width="match_parent"
+            android:layout_width="59dp"
             android:layout_height="match_parent"
             android:text="+"
             android:textAlignment="6"
@@ -31,7 +44,255 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Monday" />
+
+            <TextView
+                android:id="@+id/MonAv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Availability" />
+
+            <Spinner
+                android:id="@+id/Mon1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <Spinner
+                android:id="@+id/Mon2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <Button
+                android:id="@+id/SubMon"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/Submit"
+                />
+
+            <Button
+                android:id="@+id/ClearMon"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Clear" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Tuesday" />
+
+            <TextView
+                android:id="@+id/TueAv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Availability" />
+
+            <Spinner
+                android:id="@+id/Tue1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/Tue2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/SubTue"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/Submit" />
+
+            <Button
+                android:id="@+id/ClearTue"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Clear" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Wednesday" />
+
+            <TextView
+                android:id="@+id/WedAv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Availability" />
+
+            <Spinner
+                android:id="@+id/Wed1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/Wed2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/SubWed"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/Submit" />
+
+            <Button
+                android:id="@+id/ClearWed"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Clear" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Thursday" />
+
+            <TextView
+                android:id="@+id/ThuAv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Availability" />
+
+            <Spinner
+                android:id="@+id/Thu1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/Thu2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/SubThu"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/Submit" />
+
+            <Button
+                android:id="@+id/ClearThu"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Clear" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Friday" />
+
+            <TextView
+                android:id="@+id/FriAv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Availability" />
+
+            <Spinner
+                android:id="@+id/Fri1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/Fri2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/SubFri"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/Submit" />
+
+            <Button
+                android:id="@+id/ClearFri"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Clear" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Saturday" />
+
+            <TextView
+                android:id="@+id/SatAv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Availability" />
+
+            <Spinner
+                android:id="@+id/Sat1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/Sat2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/SubSat"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/Submit" />
+
+            <Button
+                android:id="@+id/ClearSat"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Clear" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Sunday" />
+
+            <TextView
+                android:id="@+id/SunAv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Availability" />
+
+            <Spinner
+                android:id="@+id/Sun1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/Sun2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/SubSun"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/Submit" />
+
+            <Button
+                android:id="@+id/ClearSun"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Clear" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="64dp" />
+
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>

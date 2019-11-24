@@ -43,7 +43,6 @@ public class User {
         this.FridayAvalibility = FridayAvalibility;
         this.SaturdayAvalibility = SatdayAvalibility;
         this.SundayAvalibility = SundayAvalibility;
-
     }
 
     public User() {
