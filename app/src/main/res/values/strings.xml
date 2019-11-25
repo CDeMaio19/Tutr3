@@ -73,6 +73,8 @@
     <string name="friendly">Friendly</string>
     <string name="completed_surveys">Completed Surveys</string>
     <string name="waiting_for_tutor_response">Waiting for the tutor\'s response</string>
+    <string name="Resume">Resume(PDF)</string>
+    <string name="total_session_time">Total Session Time:</string>
 
 
     <string-array name="Time">
@@ -184,5 +186,11 @@
     <string-array name="Payment">
         <item>Credit Card</item>
         <item>Paypal</item>
+    </string-array>
+    <string-array name="AdminOptions">
+        <item>View all users</item>
+        <item>View tutors</item>
+        <item>View students</item>
+        <item>View chat logs</item>
     </string-array>
 </resources>

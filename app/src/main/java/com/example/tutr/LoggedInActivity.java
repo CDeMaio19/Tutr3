@@ -25,6 +25,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +44,7 @@ public class LoggedInActivity extends AppCompatActivity {
     private ChatFragment chatFragment = new ChatFragment();
     private ProfileFragment profileFragment = new ProfileFragment();
     private TutorRatingsFragment tutorRatingsFragment = new TutorRatingsFragment();
+    private DatabaseReference userReference;
     private EditText questionData;
     private EditText descriptionData;
     private Bundle userStatusBundle;
@@ -58,11 +61,22 @@ public class LoggedInActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         isTutor = intent.getBooleanExtra("User Status",false);
+        String userPath;
+        if(isTutor)
+        {
+            userPath = "Tutors";
+        }
+        else
+        {
+            userPath = "Students";
+        }
         userStatusBundle = new Bundle();
         userStatusBundle.putBoolean("User Status",isTutor);
 
         DatabaseReference subjectsReference = FirebaseDatabase.getInstance().getReference("Subjects");
+        userReference = FirebaseDatabase.getInstance().getReference("Users").child(userPath);
         subjectsReference.addValueEventListener(subjectsValueEventListener);
+        userReference.addListenerForSingleValueEvent(userValueEventListener);
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_nav);
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         if(inflater!=null) {
@@ -93,7 +107,7 @@ public class LoggedInActivity extends AppCompatActivity {
             bottomNavigation.getMenu().findItem(R.id.nav_ratings).setVisible(true);
             bottomNavigation.getMenu().findItem(R.id.nav_matching).setVisible(false);
             ft.add(R.id.fragment_ui_container, new TutorRatingsFragment());
-            ft.addToBackStack("Tutor Ratings Fragment Fragment");
+            ft.addToBackStack("Tutor Ratings Fragment");
             ft.commit();
         }
 
@@ -204,6 +218,26 @@ public class LoggedInActivity extends AppCompatActivity {
                 Popup(myDataSnapshot);
             }
 
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+    private ValueEventListener userValueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            if(firebaseUser!=null) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.child("id").getValue().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                        //marks that the user is online
+                        userReference.child(firebaseUser.getUid()).child("isOnline").setValue(true);
+                        break;
+                    }
+                }
+            }
         }
 
         @Override

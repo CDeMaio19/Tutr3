@@ -42,6 +42,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatFragment extends Fragment {
     private DatabaseReference chatsReference;
+    private DatabaseReference tutorSessionTime;
     private TextView toolbarUsername;
     private String currentUserType;
     private String otherUserType;
@@ -54,6 +55,8 @@ public class ChatFragment extends Fragment {
     private FirebaseUser firebaseUser;
     private ListView listOfMessages;
     private ListView conversationList;
+    private long sessionStartTime;
+    private long sessionEndTime;
 
     @Override
         public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState ) {
@@ -71,7 +74,7 @@ public class ChatFragment extends Fragment {
             firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             chatsReference = FirebaseDatabase.getInstance().getReference("Chats").child("ChatRooms");
             DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("Users").child(otherUserType);
-            //views
+
             View fragmentRootView = inflater.inflate(R.layout.fragment_chat,container,false);
             profileImage = fragmentRootView.findViewById(R.id.profile_image);
             toolbarUsername = fragmentRootView.findViewById(R.id.toolbarUsername);
@@ -107,6 +110,7 @@ public class ChatFragment extends Fragment {
                 if(chatRoomIDReference!=null) {
                     chatsReference.child(chatRoomIDReference).setValue(new ChatRoom(chatRoomIDReference,
                             tutorID, firebaseUser.getUid(), 0,questionAsked,true));
+                    sessionStartTime = System.currentTimeMillis();
                     endSessionButton.setVisibility(View.VISIBLE);
                     DisplayChatMessages();
                 }
@@ -358,6 +362,26 @@ public class ChatFragment extends Fragment {
                 chatsReference.child(chatRoomIDReference).child("active").setValue(false);
                 chatEditText.setEnabled(false);
                 sendButton.setEnabled(false);
+                sessionEndTime = System.currentTimeMillis();
+                tutorSessionTime = FirebaseDatabase.getInstance().getReference("Users").child("Tutors").child(tutorID);
+                tutorSessionTime.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        long totalSessionTime;
+                        if(dataSnapshot.child("totalSessionTimes").getValue() != null) {
+                            totalSessionTime = (long) dataSnapshot.child("totalSessionTimes").getValue();
+                        }else{
+                            totalSessionTime = 0;
+                        }
+                        totalSessionTime += sessionEndTime - sessionStartTime;
+                        tutorSessionTime.child("totalSessionTimes").setValue(totalSessionTime);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
                 alert.dismiss();
                 if(currentUserType.equals("Students"))
                 {
@@ -423,10 +447,6 @@ public class ChatFragment extends Fragment {
 
 
     }
-
-
-
-
 }
 
 

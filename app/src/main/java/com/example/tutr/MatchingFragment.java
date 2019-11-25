@@ -7,14 +7,11 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.firebase.ui.database.FirebaseListAdapter;
@@ -23,8 +20,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-
-import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -82,7 +77,7 @@ public class MatchingFragment extends Fragment {
         // subject the student asked about
         Query query = reference.orderByChild("subject").equalTo(majorSubject);
         FirebaseListAdapter<User> adapter = new FirebaseListAdapter<User>(getActivity(),
-                User.class, R.layout.tutor_list_item, query) {
+                User.class, R.layout.tutor_matching_list_item, query) {
             @Override
             protected void populateView(View v, final User model, int position) {
                 CircleImageView profileImage = v.findViewById(R.id.profile_image);
