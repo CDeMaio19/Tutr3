@@ -37,7 +37,7 @@
     <string name="ask_a_question">Ask a Question</string>
     <string name="popup_greeting">Need Help?\n Ask a question and we\'ll provide you with a list of certified professionals!</string>
     <string name="list_of_tutors">List of Certified Tutors</string>
-    <string name= "Bio">Bio</string>
+    <string name="Bio">Bio</string>
     <string name="Send">Send</string>
     <string name="FName">First Name</string>
     <string name="LName">Last Name</string>
@@ -53,6 +53,8 @@
     <string name="Saturday">Saturday</string>
     <string name="Sunday">Sunday</string>
     <string name="Availability">Availability:  </string>
+    <string name="Online">Available Now</string>
+    <string name="Schedule_app">Schedule Appointment</string>
 
     <string-array name="Time">
         <item>Anytime</item>
@@ -90,7 +92,7 @@
         <item>11:30 PM</item>
         <item>12:00 AM</item>
     </string-array>
-    
+
     <string-array name="Subjects">
         <item>English</item>
         <item>Math</item>

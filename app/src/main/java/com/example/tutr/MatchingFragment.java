@@ -1,5 +1,6 @@
 package com.example.tutr;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,6 +38,9 @@ public class MatchingFragment extends Fragment {
     private String description;
     private FirebaseListAdapter<User> adapter;
     private ListView tutorList;
+    private RadioButton Online;
+    private RadioButton App;
+    private RadioGroup Group;
 
     public MatchingFragment()
     {
@@ -46,12 +52,21 @@ public class MatchingFragment extends Fragment {
     {
         View fragmentRootView = inflater.inflate(R.layout.fragment_matching,container,false);
         tutorList = fragmentRootView.findViewById(R.id.tutors_listView);
+        Online = fragmentRootView.findViewById(R.id.Online);
+        App = fragmentRootView.findViewById(R.id.App);
+        Group = fragmentRootView.findViewById(R.id.group);
         Bundle bundle = getArguments();
         if(bundle != null) {
             majorSubject = bundle.getString("Major Subject");
             minorSubject = bundle.getString("Minor Subject");
             question = bundle.getString("Questions");
             description = bundle.getString("Description");
+            Group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                    DisplayTutors();
+                }
+            });
             DisplayTutors();
 
         }
@@ -74,6 +89,7 @@ public class MatchingFragment extends Fragment {
         //queries the firebase database on the tutors area of expertise which equals the most specific
         // subject the student asked about
         Query query = reference.orderByChild("subject").equalTo(majorSubject);
+
         adapter = new FirebaseListAdapter<User>(getActivity(),
                 User.class, R.layout.tutor_list_item, query) {
             @Override
@@ -83,6 +99,9 @@ public class MatchingFragment extends Fragment {
                 TextView schoolOrOccupation = v.findViewById(R.id.tutor_school_occupation);
                 TextView areaOfExpertise = v.findViewById(R.id.tutor_area_of_expertise);
                 Button matchButton = v.findViewById(R.id.match_button);
+                if (App.isChecked()){
+                    matchButton.setText("Schedule Appointment");
+                }
                 //populates the listView item with the data of the given tutor that matched with the query
                     userName.setText(model.getUsername());
                     schoolOrOccupation.setText(model.getSchool());
@@ -114,6 +133,20 @@ public class MatchingFragment extends Fragment {
                         bundle.putString("Tutor ID", model.getId());
                         bundle.putString("Tutor Profile Photo", model.getProfilePhoto());
                         bundle.putString("Tutor Username", model.getUsername());
+                        if (App.isChecked()){
+                            Intent intent = new Intent(getActivity(), AppointmentActivity.class);
+                            intent.putExtra("EXTRA_ID", model.getId());
+                            intent.putExtra("Extra_Username", model.getUsername());
+                            intent.putExtra("Extra_MonAv", model.getMondayAvalibility());
+                            intent.putExtra("Extra_TueAv", model.getTuedayAvalibility());
+                            intent.putExtra("Extra_WedAv", model.getWednesdayAvalibility());
+                            intent.putExtra("Extra_ThuAv", model.getThursdayAvalibility());
+                            intent.putExtra("Extra_FriAv", model.getFridayAvalibility());
+                            intent.putExtra("Extra_SatAv", model.getSaturdayAvalibility());
+                            intent.putExtra("Extra_SunAv", model.getSundayAvalibility());
+                            startActivity(intent);
+                        }
+                        else
                         chatFragment.setArguments(bundle);
                         getFragmentManager().beginTransaction().replace(R.id.fragment_ui_container, chatFragment).commit();
 

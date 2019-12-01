@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageButton
@@ -12,23 +13,51 @@
         android:layout_margin="5dp"
         android:src="@drawable/ic_new_question"
         android:background="@android:color/transparent"/>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:text="@string/list_of_tutors"
-            android:layout_marginTop="150dp"
             android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp">
+
+            <RadioGroup
+                android:id="@+id/group"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_weight="1">
+
+                <RadioButton
+                    android:id="@+id/Online"
+                    android:layout_width="205dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="@string/Online" />
+
+                <RadioButton
+                    android:id="@+id/App"
+                    android:layout_width="205dp"
+                    android:layout_height="48dp"
+                    android:text="@string/Schedule_app" />
+
+            </RadioGroup>
+        </LinearLayout>
 
         <ListView
             android:id="@+id/tutors_listView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/grey"/>
+            android:layout_height="510dp"
+            android:background="@color/grey" />
 
     </LinearLayout>
 </RelativeLayout>
