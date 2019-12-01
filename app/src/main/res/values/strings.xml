@@ -55,6 +55,7 @@
     <string name="Availability">Availability:  </string>
     <string name="Online">Available Now</string>
     <string name="Schedule_app">Schedule Appointment</string>
+    <string name="Available">Availability this week</string>
 
     <string-array name="Time">
         <item>Anytime</item>

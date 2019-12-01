@@ -257,6 +257,7 @@ public class ScheduleTabFragment extends Fragment {
             public void onClick(View view) {
                 MonAv.append(SetAvalibility(Mon1, Mon2));
                 InsertData(getView(), MonAv);
+
             }
         });
         ClearMon.setOnClickListener(new View.OnClickListener() {

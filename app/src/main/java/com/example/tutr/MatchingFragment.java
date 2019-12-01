@@ -124,7 +124,7 @@ public class MatchingFragment extends Fragment {
                         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                         DatabaseReference questionsReference = FirebaseDatabase.getInstance().getReference("Questions").child(firebaseUser.getUid());
                         questionsReference.push().setValue(new Question(question,majorSubject,minorSubject,description));
-                        ChatFragment chatFragment = new ChatFragment();
+                        /*ChatFragment chatFragment = new ChatFragment();
                         Bundle bundle = new Bundle();
                         bundle.putString("Question", question);
                         bundle.putString("Description", description);
@@ -132,10 +132,11 @@ public class MatchingFragment extends Fragment {
                         bundle.putString("Minor Subject", minorSubject);
                         bundle.putString("Tutor ID", model.getId());
                         bundle.putString("Tutor Profile Photo", model.getProfilePhoto());
-                        bundle.putString("Tutor Username", model.getUsername());
+                        bundle.putString("Tutor Username", model.getUsername());*/
                         if (App.isChecked()){
                             Intent intent = new Intent(getActivity(), AppointmentActivity.class);
                             intent.putExtra("EXTRA_ID", model.getId());
+
                             intent.putExtra("Extra_Username", model.getUsername());
                             intent.putExtra("Extra_MonAv", model.getMondayAvalibility());
                             intent.putExtra("Extra_TueAv", model.getTuedayAvalibility());
@@ -147,8 +148,9 @@ public class MatchingFragment extends Fragment {
                             startActivity(intent);
                         }
                         else
-                        chatFragment.setArguments(bundle);
-                        getFragmentManager().beginTransaction().replace(R.id.fragment_ui_container, chatFragment).commit();
+                            return;
+                       /* chatFragment.setArguments(bundle);
+                        getFragmentManager().beginTransaction().replace(R.id.fragment_ui_container, chatFragment).commit();*/
 
 
                     }
