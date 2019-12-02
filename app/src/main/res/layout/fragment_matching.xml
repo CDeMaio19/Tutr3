@@ -33,13 +33,6 @@
         android:layout_below="@id/major_subject_textView"
         android:layout_margin="2dp"/>
     <TextView
-        android:id="@+id/description_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/description"
-        android:layout_below="@id/minor_subject_textView"
-        android:layout_margin="2dp"/>
-    <TextView
         android:id="@+id/question_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,6 +46,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:layout_toRightOf="@id/major_subject_textView"
+        android:layout_toEndOf="@id/major_subject_textView"
         android:layout_below="@id/question_textView"
         android:layout_margin="2dp"/>
     <TextView
@@ -61,37 +55,49 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:layout_toRightOf="@id/minor_subject_textView"
+        android:layout_toEndOf="@id/minor_subject_textView"
         android:layout_below="@id/major_subject_textView"
         android:layout_margin="2dp"/>
 
-    <TextView
-        android:id="@+id/description_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:layout_below="@id/description_text_view"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="2dp" />
     <LinearLayout
+        android:layout_below="@id/minor_subject_data"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom">
+
+            <RadioGroup
+                android:id="@+id/group"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <RadioButton
+                    android:id="@+id/Online"
+                    android:layout_width="205dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:text="@string/Online" />
+
+                <RadioButton
+                    android:id="@+id/App"
+                    android:layout_width="205dp"
+                    android:layout_height="30dp"
+                    android:text="@string/Schedule_app" />
+
+            </RadioGroup>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="@string/list_of_tutors"
-            android:layout_marginTop="150dp"
             android:textSize="20sp" />
 
         <ListView
             android:id="@+id/tutors_listView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/grey"/>
+            android:layout_height="510dp"
+            android:background="@color/grey" />
 
     </LinearLayout>
 </RelativeLayout>

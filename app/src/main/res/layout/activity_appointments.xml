@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:text="@string/Available"
+        android:textAlignment="center"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/Username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:text="TextView"
+        android:layout_marginBottom="20dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/MonT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Monday" />
+
+            <TextView
+                android:id="@+id/MonAvT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <Spinner
+                android:id="@+id/MonAvSel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/AppMon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Schedule_app" />
+
+            <TextView
+                android:id="@+id/TueT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Tuesday" />
+
+            <TextView
+                android:id="@+id/TueAvT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <Spinner
+                android:id="@+id/TueAvSel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/AppTue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Schedule_app" />
+
+            <TextView
+                android:id="@+id/WedT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Wednesday" />
+
+            <TextView
+                android:id="@+id/WedAvT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <Spinner
+                android:id="@+id/WedAvSel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/AppWed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Schedule_app" />
+
+            <TextView
+                android:id="@+id/ThuT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Thursday" />
+
+            <TextView
+                android:id="@+id/ThuAvT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <Spinner
+                android:id="@+id/ThuAvSel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/AppThu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Schedule_app" />
+
+            <TextView
+                android:id="@+id/FriT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Friday" />
+
+            <TextView
+                android:id="@+id/FriAvT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <Spinner
+                android:id="@+id/FriAvSel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/AppFri"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Schedule_app" />
+
+            <TextView
+                android:id="@+id/SatT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Saturday" />
+
+            <TextView
+                android:id="@+id/SatAvT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <Spinner
+                android:id="@+id/SatAvSel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/AppSat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Schedule_app" />
+
+            <TextView
+                android:id="@+id/SunT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Sunday" />
+
+            <TextView
+                android:id="@+id/SunAvT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <Spinner
+                android:id="@+id/SunAvSel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/AppSun"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Schedule_app" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
