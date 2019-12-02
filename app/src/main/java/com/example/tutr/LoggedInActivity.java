@@ -182,7 +182,6 @@ public class LoggedInActivity extends AppCompatActivity {
                 }
 
             }
-
             //sets the default value of the spinners if nothing is selected
             @Override
             public void onNothingSelected(AdapterView<?> parent) {

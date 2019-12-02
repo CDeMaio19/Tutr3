@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -84,6 +85,8 @@ public class MatchingFragment extends Fragment {
                 TextView userName = v.findViewById(R.id.tutor_name);
                 TextView schoolOrOccupation = v.findViewById(R.id.tutor_school_occupation);
                 TextView areaOfExpertise = v.findViewById(R.id.tutor_area_of_expertise);
+                RatingBar ratingBar = v.findViewById(R.id.tutor_rating);
+                ratingBar.setRating(model.getRating());
                 Button matchButton = v.findViewById(R.id.match_button);
                 //populates the listView item with the data of the given tutor that matched with the query
                     userName.setText(model.getUsername());

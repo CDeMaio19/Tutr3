@@ -27,6 +27,7 @@ public class TutorRatingsFragment extends Fragment {
     private ProgressBar focusedProgressBar;
     private ProgressBar accuracyProgressBar;
     private ProgressBar friendlyProgressBar;
+    private DatabaseReference reference;
     private ListView surveyListView;
     private DatabaseReference surveyReference;
     @Override
@@ -35,7 +36,7 @@ public class TutorRatingsFragment extends Fragment {
         View fragmentRootView = inflater.inflate(R.layout.fragment_tutor_ratings, container,false);
         final TextView usernameTextView = fragmentRootView.findViewById(R.id.username);
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child("Tutors").child(firebaseUser.getUid());
+        reference = FirebaseDatabase.getInstance().getReference("Users").child("Tutors").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -53,7 +54,7 @@ public class TutorRatingsFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                SetRatingData(dataSnapshot);
-               SetListView(dataSnapshot);
+               SetListView();
             }
 
             @Override
@@ -70,7 +71,7 @@ public class TutorRatingsFragment extends Fragment {
         return fragmentRootView;
     }
 
-    public void SetRatingData(DataSnapshot dataSnapshot)
+    private void SetRatingData(DataSnapshot dataSnapshot)
     {
         focusedProgressBar.setProgress(0);
         accuracyProgressBar.setProgress(0);
@@ -108,9 +109,12 @@ public class TutorRatingsFragment extends Fragment {
         friendlyProgressBar.setProgress(Math.round(tempFriendly));
         //gets the total average across each category, adds them, and divides by 3 to account for the 3 separate categories
         float rating = (((accuracyTotal+focusedTotal+friendlyTotal)/tempCount)/3);
+        System.out.println(rating);
+        reference.child("rating").setValue(rating);
+
         ratingBar.setRating(rating);
     }
-    private void SetListView(DataSnapshot dataSnapshot)
+    private void SetListView()
     {
         FirebaseListAdapter<Survey> adapter = new FirebaseListAdapter<Survey>(getActivity(),Survey.class,R.layout.survey_list_item,surveyReference) {
             @Override
@@ -118,9 +122,12 @@ public class TutorRatingsFragment extends Fragment {
                 TextView focusedData = v.findViewById(R.id.focused_data);
                 TextView accuracyData = v.findViewById(R.id.accurate_data);
                 TextView friendlyData = v.findViewById(R.id.friendly_data);
+                TextView comments = v.findViewById(R.id.comment_data);
                 RatingBar ratingBar = v.findViewById(R.id.item_rating);
-
-
+                if(model!=null && model.getComment() != null)
+                {
+                    comments.setText(model.getComment());
+                }
                 focusedData.setText(String.valueOf(model.getFocusedRating()));
                 accuracyData.setText(String.valueOf(model.getAccurateRating()));
                 friendlyData.setText(String.valueOf(model.getFriendlyRating()));

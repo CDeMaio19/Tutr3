@@ -5,18 +5,30 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View options"
+        android:text="@string/view_options"
         android:textSize="20sp"
         android:layout_margin="10dp"/>
-    <Spinner
-        android:id="@+id/adminViewOptions"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"/>
+        android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/adminViewOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"/>
+        <Spinner
+            android:id="@+id/chats_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_marginTop="10dp"/>
+    </LinearLayout>
+
     <ListView
-        android:id="@+id/user_list"
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"/>
+        android:padding="10dp" />
 
 </LinearLayout>

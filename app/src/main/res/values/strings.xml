@@ -75,6 +75,8 @@
     <string name="waiting_for_tutor_response">Waiting for the tutor\'s response</string>
     <string name="Resume">Resume(PDF)</string>
     <string name="total_session_time">Total Session Time:</string>
+    <string name="match">Match</string>
+    <string name="view_options">View Options</string>
 
 
     <string-array name="Time">
@@ -188,7 +190,6 @@
         <item>Paypal</item>
     </string-array>
     <string-array name="AdminOptions">
-        <item>View all users</item>
         <item>View tutors</item>
         <item>View students</item>
         <item>View chat logs</item>

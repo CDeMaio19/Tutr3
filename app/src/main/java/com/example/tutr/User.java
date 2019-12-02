@@ -10,6 +10,7 @@ public class User {
     private String areaOfExpertise;
     private String description;
     private long totalSessionTimes;
+    private float rating;
     private String payment;
     private String paymentMeathod;
     private String MondayAvalibility;
@@ -26,7 +27,7 @@ public class User {
     public User(String email, String school, String id, String profilePhoto, String username,
                 String areaOfExpertise, String description, String subject, String payment, String paymentMeathod,
                 String MondayAvalibility, String TuesdayAvalibility, String WednesdayAvalibility, String ThursdayAvalibility,
-                String FridayAvalibility, String SatdayAvalibility, String SundayAvalibility, long totalSessionTimes) {
+                String FridayAvalibility, String SatdayAvalibility, String SundayAvalibility, long totalSessionTimes, float rating) {
         this.email = email;
         this.school = school;
         this.id = id;
@@ -45,6 +46,7 @@ public class User {
         this.SaturdayAvalibility = SatdayAvalibility;
         this.SundayAvalibility = SundayAvalibility;
         this.totalSessionTimes = totalSessionTimes;
+        this.rating = rating;
     }
 
     public User() {
@@ -188,5 +190,13 @@ public class User {
 
     public void setTotalSessionTimes(long totalSessionTimes) {
         this.totalSessionTimes = totalSessionTimes;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 }
