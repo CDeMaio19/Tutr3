@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/student_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/accept_button"
+        android:layout_toLeftOf="@id/accept_button"
+        android:layout_marginStart="10dp" />
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/student_name"
+        android:text="@string/questions"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp" />
+    <TextView
+        android:id="@+id/question_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/question"
+        android:layout_toEndOf="@id/question"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/student_name"/>
+    <ImageButton
+        android:id="@+id/accept_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/decline_button"
+        android:layout_toStartOf="@id/decline_button"
+        android:contentDescription="@string/accept_request"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_accept"
+        android:background="@android:color/transparent"
+        android:padding="5dp"/>
+    <ImageButton
+        android:id="@+id/decline_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/decline_request"
+        android:src="@drawable/ic_decline"
+        android:layout_margin="10dp"
+        android:background="@android:color/transparent"
+        android:padding="5dp"/>
+
+</RelativeLayout>
