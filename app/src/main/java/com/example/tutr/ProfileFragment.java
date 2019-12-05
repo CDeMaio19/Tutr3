@@ -72,9 +72,11 @@ public class ProfileFragment extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
 
         Toolbar toolbar = fragmentRootView.findViewById(R.id.profile_toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        toolbar.setTitle("");
-        setHasOptionsMenu(true);
+        if(getActivity()!=null) {
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            toolbar.setTitle("");
+            setHasOptionsMenu(true);
+        }
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
@@ -102,6 +104,7 @@ public class ProfileFragment extends Fragment {
                {
                    //log the user out and bring them to the login page
                    FirebaseAuth.getInstance().signOut();
+                   reference.child("isOnline").setValue(false);
                    startActivity(new Intent(getActivity(), MainActivity.class));
 
                }
@@ -183,7 +186,7 @@ public class ProfileFragment extends Fragment {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),data.getData());
                         // sets profileImage to the created bitmap
                         profileImage.setImageBitmap(bitmap);
-                        //converts the bitmap into a string to store in the firebase database
+                        //converts the bitmap into a string to store in the FireBase database
                         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.PNG,100, byteArrayOutputStream);
                         byte [] b= byteArrayOutputStream.toByteArray();

@@ -1,5 +1,6 @@
 package com.example.tutr;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,13 +10,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,8 +28,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -40,16 +42,18 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     private EditText SO;
     private EditText UEmail;
     private EditText UPassword;
+    private EditText Resume;
     private Spinner FOE;
     private Spinner Sub;
     private String SubjectText = "English";
     private String ExpertText;
-    
+    private String filePath;
 
     private RadioButton ST;
     private RadioButton TU;
 
-    private Button Reg;
+    private ImageButton attachResume;
+    private final int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +68,16 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         FN = (EditText) findViewById(R.id.e_FName);
         LN = (EditText) findViewById(R.id.e_LName);
         SO = (EditText) findViewById(R.id.e_School);
+        Resume = findViewById(R.id.resume_attachment);
         FOE = (Spinner) findViewById(R.id.FOE);
         Sub = (Spinner) findViewById(R.id.Subject);
+
 
         ST = (RadioButton) findViewById(R.id.Student);
         TU = (RadioButton) findViewById(R.id.Educator);
 
-        Reg = (Button) findViewById(R.id.Login);
+        Button Reg = (Button) findViewById(R.id.Login);
+        attachResume = findViewById(R.id.attach_resume_button);
 
         Reg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +88,8 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
         FOE.setVisibility(View.INVISIBLE);
         Sub.setVisibility(View.INVISIBLE);
+        Resume.setVisibility(View.INVISIBLE);
+        attachResume.setVisibility(View.INVISIBLE);
 
         final ArrayAdapter<CharSequence> S = ArrayAdapter.createFromResource(this, R.array.Subjects, android.R.layout.simple_spinner_item);
         S.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -106,6 +115,18 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         Pay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
+        attachResume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("application/pdf");
+                //starts activity to select a photo from the gallery
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE);
+
+            }
+        });
+
         TU.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +134,8 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                 FOE.setAdapter(E);
                 Sub.setVisibility(View.VISIBLE);
                 Sub.setAdapter(S);
+                Resume.setVisibility(View.VISIBLE);
+                attachResume.setVisibility(View.VISIBLE);
             }
         });
 
@@ -123,6 +146,8 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                 FOE.setAdapter(Pay);
                 Sub.setVisibility(View.VISIBLE);
                 Sub.setAdapter(Subsc);
+                Resume.setVisibility(View.INVISIBLE);
+                attachResume.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -131,6 +156,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     private void RegisterUser() {
         String email = UEmail.getText().toString().trim();
         String password = UPassword.getText().toString().trim();
+        String resumeText = Resume.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Please enter email", Toast.LENGTH_LONG).show();
@@ -139,6 +165,11 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
         if (TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Please enter password", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(TextUtils.isEmpty(resumeText))
+        {
+            Toast.makeText(this, "Please attach a resume", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -165,6 +196,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                 if (TU.isChecked()) {
                                     userHash.put("subject", SubjectText);
                                     userHash.put("areaOfExpertise",ExpertText);
+                                    userHash.put("resume", filePath);
                                 }
 
                                 userHash.put("description", "");
@@ -243,5 +275,31 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+
+            switch (requestCode)
+            {
+                case REQUEST_CODE:
+                    if (resultCode == Activity.RESULT_OK) {
+                        if(data!=null) {
+                            filePath = data.getData().toString();
+                            Resume.setText(filePath);
+                        }
+                        break;
+                    }
+                    else if (resultCode == Activity.RESULT_CANCELED) {
+                        Log.e(TAG, "Selecting file cancelled");
+                    }
+                    break;
+            }
+        }
+        catch (Exception e) {
+            Log.e(TAG, "Exception in onActivityResult : " + e.getMessage());
+        }
     }
 }

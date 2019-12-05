@@ -10,4 +10,6 @@
     <color name="White">#ffffff</color>
     <color name="Black">#000000</color>
     <color name="LightOrange">#ffb700</color>
+    <color name="red">#FF0011</color>
+    <color name="gold">#FFE848</color>
 </resources>

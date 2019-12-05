@@ -6,9 +6,12 @@ public class User {
     private String id;
     private String subject;
     private String profilePhoto;
+    private String resume;
     private String username;
     private String areaOfExpertise;
     private String description;
+    private long totalSessionTimes;
+    private float rating;
     private String payment;
     private String paymentMeathod;
     private String MondayAvalibility;
@@ -22,7 +25,10 @@ public class User {
 
 
 
-    public User(String email, String school, String id, String profilePhoto, String username, String areaOfExpertise, String description, String subject, String MondayAvalibility, String TuesdayAvalibility, String WednesdayAvalibility, String ThursdayAvalibility, String FridayAvalibility, String SatdayAvalibility, String SundayAvalibility) {
+    public User(String email, String school, String id, String profilePhoto, String username,
+                String areaOfExpertise, String description, String subject, String payment, String paymentMeathod,String resume,
+                String MondayAvalibility, String TuesdayAvalibility, String WednesdayAvalibility, String ThursdayAvalibility,
+                String FridayAvalibility, String SatdayAvalibility, String SundayAvalibility, long totalSessionTimes, float rating) {
         this.email = email;
         this.school = school;
         this.id = id;
@@ -40,6 +46,9 @@ public class User {
         this.FridayAvalibility = FridayAvalibility;
         this.SaturdayAvalibility = SatdayAvalibility;
         this.SundayAvalibility = SundayAvalibility;
+        this.totalSessionTimes = totalSessionTimes;
+        this.rating = rating;
+        this.resume = resume;
     }
 
     public User() {
@@ -176,5 +185,28 @@ public class User {
     public void setSundayAvalibility(String sundayAvalibility) {
         SundayAvalibility = sundayAvalibility;
     }
-}
 
+    public long getTotalSessionTimes() {
+        return totalSessionTimes;
+    }
+
+    public void setTotalSessionTimes(long totalSessionTimes) {
+        this.totalSessionTimes = totalSessionTimes;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public String getResume() {
+        return resume;
+    }
+
+    public void setResume(String resume) {
+        this.resume = resume;
+    }
+}

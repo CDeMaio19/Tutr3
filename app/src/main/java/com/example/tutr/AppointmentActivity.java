@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -75,6 +74,10 @@ public class AppointmentActivity extends AppCompatActivity {
     String Fr = getIntent().getStringExtra("Extra_FriAv");
     String Sa = getIntent().getStringExtra("Extra_SatAv");
     String Su = getIntent().getStringExtra("Extra_SunAv");
+        Toast.makeText(this, ID, Toast.LENGTH_SHORT).show();
+        if(ID!=null) {
+            reference = FirebaseDatabase.getInstance().getReference("Users").child("Tutors").child(ID);
+        }
 
 
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
@@ -91,8 +94,7 @@ public class AppointmentActivity extends AppCompatActivity {
            String Sa = dataSnapshot.child("SaturdayAvailability").getValue(String.class);
            String Su = dataSnapshot.child("SundayAvailability").getValue(String.class);
 
-           String MondaySt = Mo.substring(14, 21);
-           String MondayEn = Mo.substring(22);
+          
            //Toast.makeText(getApplicationContext(), MondayEn, Toast.LENGTH_LONG).show();
 
             ArrayAdapter<CharSequence> App = ArrayAdapter.createFromResource(getApplicationContext(), R.array.App, android.R.layout.simple_spinner_item);
@@ -181,7 +183,6 @@ public class AppointmentActivity extends AppCompatActivity {
         }
     });
 
-
     Mon = findViewById(R.id.MonT);
     MonAv = findViewById(R.id.MonAvT);
     MonAvSel = findViewById(R.id.MonAvSel);
@@ -269,14 +270,9 @@ AppMon.setOnClickListener(new View.OnClickListener() {
 
 
 
-
-
-
-
-
-
     UserName = findViewById(R.id.Username);
-    UserName.setText("for: " + Username);
+    String formattedText = String.format("for: %s", Username);
+    UserName.setText(formattedText);
 
 
 }

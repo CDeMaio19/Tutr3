@@ -7,7 +7,6 @@ import java.util.Date;
 public class Message {
     private String text;
     private String sender;
-    private String receiver;
     private long timeSent;
 
     Message()
@@ -15,10 +14,9 @@ public class Message {
 
     }
 
-    public Message(String text, String sender, String receiver) {
+    public Message(String text, String sender) {
         this.text = text;
         this.sender = sender;
-        this.receiver = receiver;
         this.timeSent = new Date().getTime();
     }
 
@@ -28,14 +26,6 @@ public class Message {
 
     public void setSender(String sender) {
         this.sender = sender;
-    }
-
-    public String getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
     }
 
     public String getText()
