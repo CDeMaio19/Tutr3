@@ -94,8 +94,7 @@ public class AppointmentActivity extends AppCompatActivity {
            String Sa = dataSnapshot.child("SaturdayAvailability").getValue(String.class);
            String Su = dataSnapshot.child("SundayAvailability").getValue(String.class);
 
-           String MondaySt = Mo.substring(14, 21);
-           String MondayEn = Mo.substring(22);
+          
            //Toast.makeText(getApplicationContext(), MondayEn, Toast.LENGTH_LONG).show();
 
             ArrayAdapter<CharSequence> App = ArrayAdapter.createFromResource(getApplicationContext(), R.array.App, android.R.layout.simple_spinner_item);
@@ -268,12 +267,6 @@ AppMon.setOnClickListener(new View.OnClickListener() {
                 startActivity(intent);
             }
         });
-
-
-
-
-
-
 
 
 
