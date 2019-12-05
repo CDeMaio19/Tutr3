@@ -1,17 +1,23 @@
 package com.example.tutr;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class AppointmentActivity extends AppCompatActivity {
     private TextView UserName;
@@ -61,7 +67,7 @@ public class AppointmentActivity extends AppCompatActivity {
 
     String ID = getIntent().getStringExtra("EXTRA_ID");
     String Username = getIntent().getStringExtra("Extra_Username");
-    String Mo = getIntent().getStringExtra("Extra_MonAv");
+    //String Mo = getIntent().getStringExtra("Extra_MonAv");
     String Tu = getIntent().getStringExtra("Extra_TueAv");
     String We = getIntent().getStringExtra("Extra_WedAv");
     String Th = getIntent().getStringExtra("Extra_ThuAv");
@@ -73,6 +79,110 @@ public class AppointmentActivity extends AppCompatActivity {
             reference = FirebaseDatabase.getInstance().getReference("Users").child("Tutors").child(ID);
         }
 
+
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference Tutor = ref.child("Users").child("Tutors").child(ID);
+    //Toast.makeText(getApplicationContext(), Mo, Toast.LENGTH_SHORT).show();
+    Tutor.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+           String Mo = dataSnapshot.child("MondayAvailability").getValue(String.class);
+           String Tu = dataSnapshot.child("TuesdayAvailability").getValue(String.class);
+           String We = dataSnapshot.child("WednesdayAvailability").getValue(String.class);
+           String Th = dataSnapshot.child("ThursdayAvailability").getValue(String.class);
+           String Fr = dataSnapshot.child("FridayAvailability").getValue(String.class);
+           String Sa = dataSnapshot.child("SaturdayAvailability").getValue(String.class);
+           String Su = dataSnapshot.child("SundayAvailability").getValue(String.class);
+
+           String MondaySt = Mo.substring(14, 21);
+           String MondayEn = Mo.substring(22);
+           //Toast.makeText(getApplicationContext(), MondayEn, Toast.LENGTH_LONG).show();
+
+            ArrayAdapter<CharSequence> App = ArrayAdapter.createFromResource(getApplicationContext(), R.array.App, android.R.layout.simple_spinner_item);
+            App.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            if (Mo == null){
+                Mon.setVisibility(View.GONE);
+                MonAv.setVisibility(View.GONE);
+                MonAvSel.setVisibility(View.GONE);
+                AppMon.setVisibility(View.GONE);
+                //Toast.makeText(getApplicationContext(),Mo, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), Tutor.toString(), Toast.LENGTH_SHORT).show();
+            }
+            else {
+                MonAv.setText(Mo);
+                MonAvSel.setAdapter(App);
+                // Toast.makeText(getApplicationContext(), Mo, Toast.LENGTH_SHORT).show();
+            }
+           //Toast.makeText(getApplicationContext(), dataSnapshot.getValue(String.class), Toast.LENGTH_SHORT).show();
+            if (Tu == null){
+                Tue.setVisibility(View.GONE);
+                TueAv.setVisibility(View.GONE);
+                TueAvSel.setVisibility(View.GONE);
+                AppTue.setVisibility(View.GONE);
+            }
+            else{
+                TueAv.setText(Tu);
+                TueAvSel.setAdapter(App);
+                //Toast.makeText(this, Tu, Toast.LENGTH_SHORT).show();
+            }
+            if (We == null){
+                Wed.setVisibility(View.GONE);
+                WedAv.setVisibility(View.GONE);
+                WedAvSel.setVisibility(View.GONE);
+                AppWed.setVisibility(View.GONE);
+            }
+            else{
+                WedAv.setText(We);
+                WedAvSel.setAdapter(App);
+            }
+            if (Th == null){
+                Thu.setVisibility(View.GONE);
+                ThuAv.setVisibility(View.GONE);
+                ThuAvSel.setVisibility(View.GONE);
+                AppThu.setVisibility(View.GONE);
+            }
+            else{
+                ThuAv.setText(Th);
+                ThuAvSel.setAdapter(App);
+            }
+            if (Fr == null){
+                Fri.setVisibility(View.GONE);
+                FriAv.setVisibility(View.GONE);
+                FriAvSel.setVisibility(View.GONE);
+                AppFri.setVisibility(View.GONE);
+            }
+            else {
+                FriAv.setText(Fr);
+                FriAvSel.setAdapter(App);
+            }
+            if (Sa == null){
+                Sat.setVisibility(View.GONE);
+                SatAv.setVisibility(View.GONE);
+                SatAvSel.setVisibility(View.GONE);
+                AppSat.setVisibility(View.GONE);
+            }
+            else{
+                SatAv.setText(Sa);
+                SatAvSel.setAdapter(App);
+            }
+            if (Su == null){
+                Sun.setVisibility(View.GONE);
+                SunAv.setVisibility(View.GONE);
+                SunAvSel.setVisibility(View.GONE);
+                AppSun.setVisibility(View.GONE);
+            }
+            else{
+                SunAv.setText(Su);
+                SunAvSel.setAdapter(App);
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    });
 
     Mon = findViewById(R.id.MonT);
     MonAv = findViewById(R.id.MonAvT);
@@ -109,76 +219,61 @@ public class AppointmentActivity extends AppCompatActivity {
         SunAvSel = findViewById(R.id.SunAvSel);
         AppSun = findViewById(R.id.AppSun);
 
+AppMon.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), LoggedInActivity.class);
+        startActivity(intent);
+    }
+});
+        AppTue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LoggedInActivity.class);
+                startActivity(intent);
+            }
+        });
+        AppWed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LoggedInActivity.class);
+                startActivity(intent);
+            }
+        });
+        AppThu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LoggedInActivity.class);
+                startActivity(intent);
+            }
+        });
+        AppFri.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LoggedInActivity.class);
+                startActivity(intent);
+            }
+        });
+        AppSat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LoggedInActivity.class);
+                startActivity(intent);
+            }
+        });
+        AppSun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LoggedInActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 
 
-    if (Mo == null){
-      Mon.setVisibility(View.GONE);
-      MonAv.setVisibility(View.GONE);
-      MonAvSel.setVisibility(View.GONE);
-      AppMon.setVisibility(View.GONE);
-    }
-    else {
-        MonAv.setText(Mo);
-        Toast.makeText(this, Mo, Toast.LENGTH_SHORT).show();
-    }
 
-    if (Tu == null){
-        Tue.setVisibility(View.GONE);
-        TueAv.setVisibility(View.GONE);
-        TueAvSel.setVisibility(View.GONE);
-        AppTue.setVisibility(View.GONE);
-    }
-    else{
-        TueAv.setText(Tu);
-        Toast.makeText(this, Tu, Toast.LENGTH_SHORT).show();
-    }
-    if (We == null){
-        Wed.setVisibility(View.GONE);
-        WedAv.setVisibility(View.GONE);
-        WedAvSel.setVisibility(View.GONE);
-        AppWed.setVisibility(View.GONE);
-    }
-    else{
-        WedAv.setText(We);
-    }
-    if (Th == null){
-        Thu.setVisibility(View.GONE);
-        ThuAv.setVisibility(View.GONE);
-        ThuAvSel.setVisibility(View.GONE);
-        AppThu.setVisibility(View.GONE);
-    }
-    else{
-        ThuAv.setText(Th);
-    }
-    if (Fr == null){
-        Fri.setVisibility(View.GONE);
-        FriAv.setVisibility(View.GONE);
-        FriAvSel.setVisibility(View.GONE);
-        AppFri.setVisibility(View.GONE);
-    }
-    else {
-        FriAv.setText(Fr);
-    }
-    if (Sa == null){
-        Sat.setVisibility(View.GONE);
-        SatAv.setVisibility(View.GONE);
-        SatAvSel.setVisibility(View.GONE);
-        AppSat.setVisibility(View.GONE);
-    }
-    else{
-        SatAv.setText(Sa);
-    }
-    if (Su == null){
-        Sun.setVisibility(View.GONE);
-        SunAv.setVisibility(View.GONE);
-        SunAvSel.setVisibility(View.GONE);
-        AppSun.setVisibility(View.GONE);
-    }
-    else{
-        SunAv.setText(Su);
-    }
+
 
 
 
