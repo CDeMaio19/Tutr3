@@ -57,6 +57,7 @@
         android:layout_below="@id/total_session_time_title"
         android:layout_toRightOf="@id/resume_title"
         android:layout_toEndOf="@id/resume_title"
+        android:textColor="@color/com_facebook_blue"
         android:maxLines="1"
         android:clickable="true"
         android:focusable="true"
