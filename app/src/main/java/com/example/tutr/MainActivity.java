@@ -27,13 +27,10 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText UEmail;
     private EditText UPassword;
-    private TextView Register;
 
-    private Button Login;
 
     private FirebaseAuth UAuth;
 
-    private FirebaseAuth.AuthStateListener UAuthListener;
 
     private boolean isTutor;
 
@@ -47,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         UAuth = FirebaseAuth.getInstance();
         UEmail = findViewById(R.id.E_Email);
         UPassword = findViewById(R.id.E_Password);
-        Login = findViewById(R.id.Login);
-        Register = findViewById(R.id.Reg);
+        Button Login = findViewById(R.id.Login);
+        TextView Register = findViewById(R.id.Reg);
         userStatusReference = FirebaseDatabase.getInstance().getReference("Users").child("Tutors");
 
         Login.setOnClickListener(new View.OnClickListener() {

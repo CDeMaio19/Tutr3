@@ -80,6 +80,10 @@
     <string name="Online">Available Now</string>
     <string name="Schedule_app">Schedule Appointment</string>
     <string name="Available">Availability this week</string>
+    <string name="tutoring_requests">Tutoring Requests</string>
+    <string name="accept_request">Accept Request</string>
+    <string name="decline_request">Decline Request</string>
+
 
 
     <string-array name="Time">

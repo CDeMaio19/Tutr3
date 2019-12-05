@@ -59,18 +59,13 @@
         android:layout_below="@id/major_subject_textView"
         android:layout_margin="2dp"/>
 
-    <LinearLayout
-        android:layout_below="@id/minor_subject_data"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom">
-
             <RadioGroup
                 android:id="@+id/group"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                android:orientation="horizontal"
+                android:layout_margin="10dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/minor_subject_data">
 
                 <RadioButton
                     android:id="@+id/Online"
@@ -87,17 +82,19 @@
 
             </RadioGroup>
         <TextView
+            android:id="@+id/listView_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:text="@string/list_of_tutors"
+            android:layout_below="@id/group"
             android:textSize="20sp" />
 
         <ListView
             android:id="@+id/tutors_listView"
             android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/listView_title"
             android:layout_height="510dp"
             android:background="@color/grey" />
 
-    </LinearLayout>
 </RelativeLayout>

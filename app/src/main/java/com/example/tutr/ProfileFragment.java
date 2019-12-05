@@ -72,9 +72,11 @@ public class ProfileFragment extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
 
         Toolbar toolbar = fragmentRootView.findViewById(R.id.profile_toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        toolbar.setTitle("");
-        setHasOptionsMenu(true);
+        if(getActivity()!=null) {
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            toolbar.setTitle("");
+            setHasOptionsMenu(true);
+        }
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");

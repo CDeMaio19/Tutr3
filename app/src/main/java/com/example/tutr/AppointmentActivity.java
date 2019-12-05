@@ -9,7 +9,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -70,7 +69,9 @@ public class AppointmentActivity extends AppCompatActivity {
     String Sa = getIntent().getStringExtra("Extra_SatAv");
     String Su = getIntent().getStringExtra("Extra_SunAv");
         Toast.makeText(this, ID, Toast.LENGTH_SHORT).show();
-        reference = FirebaseDatabase.getInstance().getReference("Users").child("Tutors").child(ID);
+        if(ID!=null) {
+            reference = FirebaseDatabase.getInstance().getReference("Users").child("Tutors").child(ID);
+        }
 
 
     Mon = findViewById(R.id.MonT);
@@ -182,7 +183,8 @@ public class AppointmentActivity extends AppCompatActivity {
 
 
     UserName = findViewById(R.id.Username);
-    UserName.setText("for: " + Username);
+    String formattedText = String.format("for: %s", Username);
+    UserName.setText(formattedText);
 
 
 }

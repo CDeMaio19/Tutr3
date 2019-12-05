@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
@@ -36,19 +39,44 @@
         android:layout_toRightOf="@id/total_session_time_title"
         android:layout_toEndOf="@id/total_session_time_title"/>
     <TextView
+        android:id="@+id/resume_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Resume"
+        android:textSize="12sp"
+        android:layout_below="@id/total_session_time_title"
+        android:layout_toRightOf="@id/profile_image"
+        android:layout_toEndOf="@id/profile_image"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"/>
+    <TextView
+        android:id="@+id/resume_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_below="@id/total_session_time_title"
+        android:layout_toRightOf="@id/resume_title"
+        android:layout_toEndOf="@id/resume_title"
+        android:maxLines="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onResumeLinkClick"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"/>
+    <TextView
         android:id="@+id/tutor_area_of_expertise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/tutor_school_occupation"
         android:layout_toEndOf="@id/tutor_school_occupation"
-        android:layout_below="@id/total_session_time_title"
+        android:layout_below="@id/resume_title"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"/>
     <TextView
         android:id="@+id/tutor_school_occupation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/total_session_time_title"
+        android:layout_below="@id/resume_title"
         android:layout_toRightOf="@id/profile_image"
         android:layout_toEndOf="@id/profile_image"
         android:layout_marginLeft="10dp"

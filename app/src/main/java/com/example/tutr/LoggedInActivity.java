@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -21,9 +23,12 @@ import android.widget.ArrayAdapter;
 
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,9 +54,11 @@ public class LoggedInActivity extends AppCompatActivity {
     private EditText descriptionData;
     private Bundle userStatusBundle;
     public DataSnapshot myDataSnapshot;
+    private DrawerLayout loggedInDrawer;
     public static boolean isTutor;
     private AlertDialog alert;
     private View popupView;
+    private ListView requestsList;
 
 
     @Override
@@ -61,13 +68,17 @@ public class LoggedInActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         isTutor = intent.getBooleanExtra("User Status",false);
+        loggedInDrawer = findViewById(R.id.logged_in);
+        requestsList = findViewById(R.id.list_of_requests);
         String userPath;
         if(isTutor)
         {
             userPath = "Tutors";
+            ViewRequests();
         }
         else
         {
+            loggedInDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             userPath = "Students";
         }
         userStatusBundle = new Bundle();
@@ -114,8 +125,6 @@ public class LoggedInActivity extends AppCompatActivity {
 
         //stops keyboard from automatically popping up on the start of the activity
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-
 
         Toolbar toolbar = findViewById(R.id.chat_toolbar);
         setSupportActionBar(toolbar);
@@ -191,7 +200,6 @@ public class LoggedInActivity extends AppCompatActivity {
                     minorSubjectsList.add(minorSubject.getKey());
                     minorSubjectsAdapter.notifyDataSetChanged();
                 }
-
             }
         });
         //sets the adapters for both spinners so the data can be viewed
@@ -216,7 +224,6 @@ public class LoggedInActivity extends AppCompatActivity {
             if(!isTutor) {
                 Popup(myDataSnapshot);
             }
-
         }
 
         @Override
@@ -281,6 +288,54 @@ public class LoggedInActivity extends AppCompatActivity {
         MatchingFragment matchingFragment = new MatchingFragment();
         matchingFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_ui_container, matchingFragment).commit();
+    }
+    private void ViewRequests()
+    {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final DatabaseReference requestsReference;
+        if(user!=null) {
+            requestsReference = FirebaseDatabase.getInstance().getReference("Requests").child(user.getUid());
+            FirebaseListAdapter<Request> adapter = new FirebaseListAdapter<Request>(this,Request.class,R.layout.request_list_item,requestsReference) {
+                @Override
+                protected void populateView(View v, final Request model, int position) {
+                    final TextView studentUserName = v.findViewById(R.id.student_name);
+                    TextView question = v.findViewById(R.id.question_data);
+                    question.setText(model.getQuestion());
+                    ImageButton acceptButton = v.findViewById(R.id.accept_button);
+                    ImageButton declineButton = v.findViewById(R.id.decline_button);
+                    //fetches the users username based on the id placed in the request
+                    FirebaseDatabase.getInstance().getReference("Users").child("Students").child(model.getStudentID()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            studentUserName.setText(dataSnapshot.child("username").getValue(String.class));
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    declineButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            requestsReference.child(model.getRequestID()).removeValue();
+
+                        }
+                    });
+                    acceptButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //if the tutors accepts the request then their id is placed in the request which will be then queried on the student side
+                            //to start the chat session
+                            requestsReference.child(model.getRequestID()).child("tutorID").setValue(user.getUid());
+                            loggedInDrawer.closeDrawer(GravityCompat.END);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_ui_container, chatFragment).commit();
+                        }
+                    });
+                }
+            };
+            requestsList.setAdapter(adapter);
+        }
     }
 
 }

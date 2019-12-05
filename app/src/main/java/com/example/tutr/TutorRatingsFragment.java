@@ -99,7 +99,7 @@ public class TutorRatingsFragment extends Fragment {
         float tempAccuracy;
         float tempFriendly;
         float tempCount = count;
-        //divides by the count to get the average, then divided by 4 because it is our of 4 stars and then multiplies by 100
+        //divides by the count to get the average, then divided by 4 because it is out of 4 stars and then multiplies by 100
         //to get the value in the form of its percentage
         tempFocused = (((focusedTotal / tempCount)/4f )*100);
         tempAccuracy = (((accuracyTotal / tempCount)/4f)*100);
@@ -109,8 +109,6 @@ public class TutorRatingsFragment extends Fragment {
         friendlyProgressBar.setProgress(Math.round(tempFriendly));
         //gets the total average across each category, adds them, and divides by 3 to account for the 3 separate categories
         float rating = (((accuracyTotal+focusedTotal+friendlyTotal)/tempCount)/3);
-        System.out.println(rating);
-        reference.child("rating").setValue(rating);
 
         ratingBar.setRating(rating);
     }

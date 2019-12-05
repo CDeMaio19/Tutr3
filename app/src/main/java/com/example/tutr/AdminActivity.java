@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,7 +59,7 @@ public class AdminActivity extends AppCompatActivity {
 
             }
         });
-        adminOptionSelected = "View all users";
+        adminOptionSelected = "View tutors";
         adminViewOptions = findViewById(R.id.adminViewOptions);
         listView = findViewById(R.id.listView);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.AdminOptions,android.R.layout.simple_spinner_item);
@@ -88,7 +90,7 @@ public class AdminActivity extends AppCompatActivity {
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-            adminOptionSelected = "View all users";
+            adminOptionSelected = "View tutors";
 
         }
     };
@@ -101,6 +103,10 @@ public class AdminActivity extends AppCompatActivity {
                 CircleImageView profileImage = v.findViewById(R.id.profile_image);
                 TextView userName = v.findViewById(R.id.tutor_name);
                 TextView schoolOrOccupation = v.findViewById(R.id.tutor_school_occupation);
+                TextView resume = v.findViewById(R.id.resume_data);
+                if(model.getResume()!=null){
+                    resume.setText(model.getResume());
+                }
                 TextView areaOfExpertise = v.findViewById(R.id.tutor_area_of_expertise);
                 TextView totalSessionTime = v.findViewById(R.id.total_session_time_data);
                 long time = model.getTotalSessionTimes();
@@ -115,14 +121,7 @@ public class AdminActivity extends AppCompatActivity {
                 userName.setText(model.getUsername());
                 schoolOrOccupation.setText(model.getSchool());
                 areaOfExpertise.setText(model.getAreaOfExpertise());
-                if (!model.getProfilePhoto().equals("default")) {
-                    String profileString = model.getProfilePhoto();
-                    byte[] encodeByte = Base64.decode(profileString, Base64.DEFAULT);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-                    profileImage.setImageBitmap(bitmap);
-                } else {
-                    profileImage.setImageResource(R.drawable.graduation_2841875_640);
-                }
+                SetUserProfileImage(model.getProfilePhoto(),profileImage);
                 //deletes the user from the application permanently
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -142,20 +141,13 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             protected void populateView(View v, final User model, int position) {
                 CircleImageView profileImage = v.findViewById(R.id.profile_image);
-                TextView userName = v.findViewById(R.id.tutor_name);
-                TextView email = v.findViewById(R.id.email);
+                TextView userName = v.findViewById(R.id.student_name);
+                TextView email = v.findViewById(R.id.email_data);
                 email.setText(model.getEmail());
                 Button deleteButton = v.findViewById(R.id.delete_button);
                 //populates the listView item with the data of the given tutor that matched with the query
                 userName.setText(model.getUsername());
-                if (!model.getProfilePhoto().equals("default")) {
-                    String profileString = model.getProfilePhoto();
-                    byte[] encodeByte = Base64.decode(profileString, Base64.DEFAULT);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-                    profileImage.setImageBitmap(bitmap);
-                } else {
-                    profileImage.setImageResource(R.drawable.graduation_2841875_640);
-                }
+                SetUserProfileImage(model.getProfilePhoto(),profileImage);
                 //deletes the user from the application permanently
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -186,20 +178,16 @@ public class AdminActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.child("Tutors").hasChild(model.getSender())){
-                            messageUser.setText(dataSnapshot.child("Tutors").child(model.getSender()).child("username").getValue().toString());
+                            messageUser.setText(dataSnapshot.child("Tutors").child(model.getSender()).child("username").getValue(String.class));
                         }
-                        else
-                        {
-                            messageUser.setText(dataSnapshot.child("Students").child(model.getSender()).child("username").getValue().toString());
-
+                        else {
+                            messageUser.setText(dataSnapshot.child("Students").child(model.getSender()).child("username").getValue(String.class));
                         }
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
                     }
                 });
-
             }
         };
         listView.setAdapter(chatsAdapter);
@@ -236,4 +224,28 @@ public class AdminActivity extends AppCompatActivity {
 
         }
     };
+
+    private void SetUserProfileImage(String profileString,CircleImageView profileImage)
+    {
+        if (!profileString.equals("default")) {
+            try {
+                byte[] encodeByte = Base64.decode(profileString, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                profileImage.setImageBitmap(bitmap);
+            }
+            catch (IllegalArgumentException IAE) {
+                Log.e("Photo error","Loading profile photo error",IAE);
+            }
+
+        }
+        else {
+            profileImage.setImageResource(R.drawable.graduation_2841875_640);
+        }
+
+    }
+    public void onResumeLinkClick(View v)
+    {
+        Toast.makeText(AdminActivity.this,"Clicked",Toast.LENGTH_SHORT).show();
+
+    }
 }

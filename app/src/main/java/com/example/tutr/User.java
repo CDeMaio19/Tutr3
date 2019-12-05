@@ -6,6 +6,7 @@ public class User {
     private String id;
     private String subject;
     private String profilePhoto;
+    private String resume;
     private String username;
     private String areaOfExpertise;
     private String description;
@@ -25,7 +26,7 @@ public class User {
 
 
     public User(String email, String school, String id, String profilePhoto, String username,
-                String areaOfExpertise, String description, String subject, String payment, String paymentMeathod,
+                String areaOfExpertise, String description, String subject, String payment, String paymentMeathod,String resume,
                 String MondayAvalibility, String TuesdayAvalibility, String WednesdayAvalibility, String ThursdayAvalibility,
                 String FridayAvalibility, String SatdayAvalibility, String SundayAvalibility, long totalSessionTimes, float rating) {
         this.email = email;
@@ -47,6 +48,7 @@ public class User {
         this.SundayAvalibility = SundayAvalibility;
         this.totalSessionTimes = totalSessionTimes;
         this.rating = rating;
+        this.resume = resume;
     }
 
     public User() {
@@ -198,5 +200,13 @@ public class User {
 
     public void setRating(float rating) {
         this.rating = rating;
+    }
+
+    public String getResume() {
+        return resume;
+    }
+
+    public void setResume(String resume) {
+        this.resume = resume;
     }
 }

@@ -58,11 +58,13 @@ public class BioTabFragment extends Fragment {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference= FirebaseDatabase.getInstance().getReference().child("Users");
 
-        editButton = getParentFragment().getActivity().findViewById(R.id.edit_button);
-        changePhotoButton = getParentFragment().getActivity().findViewById(R.id.change_photo_button);
-        saveProfileChanges = getParentFragment().getActivity().findViewById(R.id.save_profile_changes);
-        Button cancelButton = saveProfileChanges.findViewById(R.id.cancel_button);
-        Button doneButton = saveProfileChanges.findViewById(R.id.done_button);
+        if(getParentFragment()!=null && getParentFragment().getActivity()!=null) {
+            editButton = getParentFragment().getActivity().findViewById(R.id.edit_button);
+            changePhotoButton = getParentFragment().getActivity().findViewById(R.id.change_photo_button);
+            saveProfileChanges = getParentFragment().getActivity().findViewById(R.id.save_profile_changes);
+        }
+            Button cancelButton = saveProfileChanges.findViewById(R.id.cancel_button);
+            Button doneButton = saveProfileChanges.findViewById(R.id.done_button);
 
         areaOfExpertiseListView = fragmentRootView.findViewById(R.id.area_of_expertise_list);
         LayoutInflater profileInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
