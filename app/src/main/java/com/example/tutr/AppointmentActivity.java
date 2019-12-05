@@ -94,7 +94,7 @@ public class AppointmentActivity extends AppCompatActivity {
            String Sa = dataSnapshot.child("SaturdayAvailability").getValue(String.class);
            String Su = dataSnapshot.child("SundayAvailability").getValue(String.class);
 
-          
+
            //Toast.makeText(getApplicationContext(), MondayEn, Toast.LENGTH_LONG).show();
 
             ArrayAdapter<CharSequence> App = ArrayAdapter.createFromResource(getApplicationContext(), R.array.App, android.R.layout.simple_spinner_item);

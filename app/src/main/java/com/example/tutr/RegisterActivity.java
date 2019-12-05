@@ -167,7 +167,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
             Toast.makeText(this, "Please enter password", Toast.LENGTH_LONG).show();
             return;
         }
-        if(TextUtils.isEmpty(resumeText))
+        if(TextUtils.isEmpty(resumeText)&& TU.isChecked())
         {
             Toast.makeText(this, "Please attach a resume", Toast.LENGTH_LONG).show();
             return;

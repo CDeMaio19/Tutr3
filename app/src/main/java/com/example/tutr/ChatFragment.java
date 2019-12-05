@@ -166,7 +166,7 @@ public class ChatFragment extends Fragment {
             listContentQuery = chatsReference.orderByChild("studentID").equalTo(firebaseUser.getUid());
         }
         //sets the default chat room to the last chat room created
-        listContentQuery.addListenerForSingleValueEvent(listContentQueryValueEventListener);
+        listContentQuery.addValueEventListener(listContentQueryValueEventListener);
         FirebaseListAdapter<ChatRoom> adapter = new FirebaseListAdapter<ChatRoom>(getActivity(),ChatRoom.class,
                                                                     R.layout.conversation_list_item,listContentQuery) {
             @Override
@@ -203,7 +203,6 @@ public class ChatFragment extends Fragment {
             //if the chat room's tutorID matches the id of the current user then populate the views with their
             // information
             if (model.getTutorID().equals(users.child("id").getValue())) {
-                chatRoomIDReference = model.getId();
                 String profileString = users.child("profilePhoto").getValue(String.class);
                 username.setText(users.child("username").getValue(String.class));
                 if (profileString != null) {
@@ -398,7 +397,7 @@ public class ChatFragment extends Fragment {
 
         }
     };
-
+    //value event to update to the tutor's rating when a new survey is submitted
     private  ValueEventListener surveyReferenceValueEvent = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

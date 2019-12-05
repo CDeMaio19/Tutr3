@@ -1,7 +1,9 @@
 package com.example.tutr;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Base64;
@@ -24,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -245,7 +249,13 @@ public class AdminActivity extends AppCompatActivity {
     }
     public void onResumeLinkClick(View v)
     {
+        TextView file = v.findViewById(R.id.resume_data);
+        String filename = file.getText().toString();
         Toast.makeText(AdminActivity.this,"Clicked",Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse(filename), "application/pdf");
+        startActivity(intent);
 
     }
 }
