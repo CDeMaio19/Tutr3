@@ -27,6 +27,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -258,6 +259,10 @@ public class LoggedInActivity extends AppCompatActivity {
             if(!questionData.getText().toString().equals("")&& !descriptionData.getText().toString().equals("")) {
                 alert.dismiss();
                 SetMatchingData();
+            }
+            else
+            {
+                Toast.makeText(LoggedInActivity.this,"Please fill out all fields",Toast.LENGTH_LONG).show();
             }
 
         }

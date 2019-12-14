@@ -172,6 +172,11 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
             Toast.makeText(this, "Please attach a resume", Toast.LENGTH_LONG).show();
             return;
         }
+        if(!ST.isChecked()&&!TU.isChecked())
+        {
+            Toast.makeText(this, "Please select a user type", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         Toast.makeText(this, "Registering Please Wait...", Toast.LENGTH_LONG).show();
 

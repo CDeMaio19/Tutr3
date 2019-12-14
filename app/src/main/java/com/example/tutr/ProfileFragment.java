@@ -97,8 +97,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.settings:
-                return true;
             case R.id.log_out:
                try
                {

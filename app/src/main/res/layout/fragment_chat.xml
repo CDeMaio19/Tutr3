@@ -42,25 +42,41 @@
                 android:layout_marginTop="16dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:layout_toStartOf="@id/end_session_button"
+                android:layout_toLeftOf="@id/end_session_button"
                 android:text="@string/Default_Username_Text"
                 android:textColor="@color/White"
                 android:textSize="24sp"
                 android:layout_toRightOf="@+id/profile_image"
                 android:layout_toEndOf="@id/profile_image"
                 android:layout_alignParentTop="true" />
+        <ImageButton
+            android:id="@+id/start_canvas_activity_Button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/start_canvas_activity"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/ic_edit_dark"
+            android:layout_alignParentBottom="true"/>
 
 
             <EditText
                 android:id="@+id/editTextMessage"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="57dp"
                 android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@id/sendButton"
+                android:layout_toStartOf="@id/sendButton"
+                android:layout_toRightOf="@id/start_canvas_activity_Button"
+                android:layout_toEndOf="@id/start_canvas_activity_Button"
                 android:ems="10"
                 android:hint="@string/editTextMessage_Hint"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:scrollHorizontally="false" />
-
 
             <ImageButton
                 android:id="@+id/sendButton"
@@ -70,6 +86,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
+                android:contentDescription="@string/Send"
                 android:background="@drawable/ic_send"
                 android:enabled="false"
                 android:text="@string/Send" />
@@ -82,6 +99,7 @@
                 android:divider="@android:color/transparent"
                 android:dividerHeight="16dp"
                 android:listSelector="@android:color/transparent"
+                android:layout_below="@id/chat_toolbar"
                 android:stackFromBottom="true"
                 android:transcriptMode="alwaysScroll" />
             <ImageButton
@@ -89,6 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
+                android:contentDescription="@string/conversation_list_menu_description"
                 android:layout_alignParentLeft="true"
                 android:padding="5dp"
                 android:layout_marginTop="15dp"

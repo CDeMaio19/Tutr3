@@ -71,6 +71,7 @@
                     android:id="@+id/Online"
                     android:layout_width="205dp"
                     android:layout_height="30dp"
+                    android:checked="true"
                     android:layout_weight="1"
                     android:text="@string/Online" />
 
