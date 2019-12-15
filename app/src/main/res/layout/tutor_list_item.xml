@@ -82,14 +82,6 @@
         android:layout_toEndOf="@id/profile_image"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"/>
-    <Button
-        android:id="@+id/delete_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/do_delete"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:padding="5dp"/>
 
 
 </RelativeLayout>

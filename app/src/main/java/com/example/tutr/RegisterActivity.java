@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.File;
 import java.util.HashMap;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
@@ -48,7 +49,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     private String SubjectText = "English";
     private String ExpertText;
     private String filePath;
-
     private RadioButton ST;
     private RadioButton TU;
 

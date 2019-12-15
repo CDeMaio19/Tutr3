@@ -149,7 +149,6 @@
             android:hint="@string/Resume"
             android:enabled="false"
             android:ems="10"
-            android:inputType="textPassword"
             android:textColor="@color/LightBlue"
             android:textSize="24sp"
             android:textStyle="bold" />
