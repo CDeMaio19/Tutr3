@@ -56,6 +56,8 @@ public class MatchingFragment extends Fragment {
         Online = fragmentRootView.findViewById(R.id.Online);
         App = fragmentRootView.findViewById(R.id.App);
         RadioGroup Group = fragmentRootView.findViewById(R.id.group);
+        //check fist element automatically
+        Group.getChildAt(0).setSelected(true);
         Bundle bundle = getArguments();
         if(bundle != null) {
             majorSubject = bundle.getString("Major Subject");
@@ -187,7 +189,6 @@ public class MatchingFragment extends Fragment {
                                         }
                                     }
                                 }
-
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
 

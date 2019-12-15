@@ -1,7 +1,7 @@
+// Code by EDMT DeV (YouTube)
 package com.example.tutr;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +17,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> listHeader;
     private HashMap<String, ArrayList<String>> listData;
 
-    public ExpandableListAdapter(Context context, List<String> listHeader, HashMap<String, ArrayList<String>> listData) {
+    ExpandableListAdapter(Context context, List<String> listHeader, HashMap<String, ArrayList<String>> listData) {
         this.context = context;
         this.listHeader = listHeader;
         this.listData = listData;
