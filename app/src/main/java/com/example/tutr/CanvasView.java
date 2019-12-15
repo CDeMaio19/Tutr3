@@ -1,4 +1,4 @@
-/* code by Tihomir RAdeff*/
+// code by Tihomir RAdeff
 package com.example.tutr;
 
 import android.content.Context;

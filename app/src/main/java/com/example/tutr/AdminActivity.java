@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,11 +30,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 
 public class AdminActivity extends AppCompatActivity {
     private String adminOptionSelected;
@@ -120,20 +124,11 @@ public class AdminActivity extends AppCompatActivity {
                         TimeUnit.MILLISECONDS.toSeconds(time) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));
                 totalSessionTime.setText(timeString);
 
-                Button deleteButton = v.findViewById(R.id.delete_button);
                 //populates the listView item with the data of the given tutor that matched with the query
                 userName.setText(model.getUsername());
                 schoolOrOccupation.setText(model.getSchool());
                 areaOfExpertise.setText(model.getAreaOfExpertise());
                 SetUserProfileImage(model.getProfilePhoto(),profileImage);
-                //deletes the user from the application permanently
-                deleteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
-
             }
         };
     }
@@ -148,17 +143,9 @@ public class AdminActivity extends AppCompatActivity {
                 TextView userName = v.findViewById(R.id.student_name);
                 TextView email = v.findViewById(R.id.email_data);
                 email.setText(model.getEmail());
-                Button deleteButton = v.findViewById(R.id.delete_button);
                 //populates the listView item with the data of the given tutor that matched with the query
                 userName.setText(model.getUsername());
                 SetUserProfileImage(model.getProfilePhoto(),profileImage);
-                //deletes the user from the application permanently
-                deleteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
 
             }
         };
@@ -175,8 +162,22 @@ public class AdminActivity extends AppCompatActivity {
                 TextView messageText = v.findViewById(R.id.message_text);
                 final TextView messageUser = v.findViewById(R.id.sent_by);
                 TextView messageTime = v.findViewById(R.id.time_sent);
+                ImageView messageImage = v.findViewById(R.id.message_image);
 
-                messageText.setText(model.getText());
+                if(model.getImage() == null) {
+                    messageText.setText(model.getText());
+                    //don't display image
+                    messageImage.setImageBitmap(null);
+                }
+                else
+                {
+                    //if the image is not null decode the image from firebase
+                    byte[] bytes = Base64.decode(model.getImage(),Base64.DEFAULT);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                    //don't display text
+                    messageText.setText(null);
+                    messageImage.setImageBitmap(bitmap);
+                }
                 messageTime.setText(DateFormat.format("hh:mm - MM-dd-yyyy", model.getTimeSent()));
                 FirebaseDatabase.getInstance().getReference().child("Users").addValueEventListener(new ValueEventListener() {
                     @Override
@@ -218,7 +219,7 @@ public class AdminActivity extends AppCompatActivity {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             chatRoomIDReference = (String)chatsSpinner.getSelectedItem();
-            if(adminOptionSelected.equals("View chat Logs")) {
+            if(adminOptionSelected.equals("View chat logs")) {
                 ViewChatLogs();
             }
         }
@@ -250,11 +251,11 @@ public class AdminActivity extends AppCompatActivity {
     public void onResumeLinkClick(View v)
     {
         TextView file = v.findViewById(R.id.resume_data);
-        String filename = file.getText().toString();
-        Toast.makeText(AdminActivity.this,"Clicked",Toast.LENGTH_SHORT).show();
+        Uri uri = Uri.parse(file.getText().toString());
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.parse(filename), "application/pdf");
+        intent.setData(uri);
+        intent.setFlags(FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(intent);
 
     }
